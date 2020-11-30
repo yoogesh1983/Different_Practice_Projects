@@ -1,0 +1,38 @@
+.yms{
+    color:red;
+}
+
+.sunny{
+    width: 10%;
+}
+
+td, table{
+    margin:left;
+    border:2px solid red;
+    color:black;
+    background:white;
+    font-size:10px;
+}
+
+thead{
+    color:white;
+    background: green;
+}
+
+.yms_form{
+    margin-top: 10px;
+    border:solid gray 2px;
+    background-color: #f1e8e8;
+    width:25%;
+    padding:10px;
+}
+
+.yms_button{
+    margin-left: 35%;
+}
+
+.yms_form .errorlist {
+    color:red;
+    list-style: none;
+    margin-left: -39px
+}
