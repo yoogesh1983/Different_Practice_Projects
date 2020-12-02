@@ -18,8 +18,12 @@ def getProfile(request):
         # handling form submission scenario
         form = forms.SignupRequest(request.POST)
         if form.is_valid():
-            print("Form validation success", form.cleaned_data)
+            print("Form validation success. Going to save data into Database", form.cleaned_data)
             ctx = {'name': form.cleaned_data['firstName']}
+
+            #Saving into a database
+            form.save(commit=True)
+
             form = forms.SignupRequest()
             return render(request, 'twmprofile/thankyou.html', ctx)
         else:

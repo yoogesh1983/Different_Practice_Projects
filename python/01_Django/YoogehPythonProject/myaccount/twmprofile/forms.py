@@ -1,7 +1,8 @@
 from django import forms
 from django.core import validators
+from twmprofile.models import Profile
 
-class SignupRequest(forms.Form):
+class SignupRequest(forms.ModelForm):
 
     # creating our own custom validator
     def custom_username_validator(value):
@@ -15,6 +16,22 @@ class SignupRequest(forms.Form):
     age = forms.IntegerField(required=False)
     comment = forms.CharField(required=False, label='Enter comment here', widget=forms.Textarea, validators=[validators.MaxLengthValidator(10)]) # emplicit validation
     bot_handler = forms.CharField(required=False, widget=forms.HiddenInput)
+
+    class Meta:
+        model = Profile
+
+        # I want all fields present inside model
+        #fields = '__all__'
+
+        # I want to specify what to save in db, This means for age it will take the default of 18 since we have defined 18 in Profile model
+        # Remember this is a tuple
+        #fields = ('username', 'password', 'firstName', 'lastName')
+
+        # I want to save all except these fields
+        # Remember this is a list
+        exclude = ['firstName', 'lastName']
+
+
 
     # Explicit validation for each field (must starts with clean_ followed by the field name)
     def clean_firstName(self):
@@ -36,6 +53,10 @@ class SignupRequest(forms.Form):
         enteredPassword = cleaned_data['password']
         if(len(enteredPassword) > 5):
             raise forms.ValidationError('Password length must not be greater than 5')
+
+        enteredAge = self.cleaned_data['age']
+        if enteredAge is None:
+            raise forms.ValidationError('Age must be required.')
 
         print("Total form validation completed. Everything looks good.....")
 

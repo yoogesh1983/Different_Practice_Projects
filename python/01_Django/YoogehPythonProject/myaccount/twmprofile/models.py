@@ -6,7 +6,7 @@ class Profile(models.Model):
     password = models.CharField(max_length=30)
     firstName = models.CharField(max_length=30)
     lastName = models.CharField(max_length=30)
-    age = models.IntegerField()
+    age = models.IntegerField(default=18)
 
 
 def __str__(self):
