@@ -19,7 +19,7 @@ def getProfile(request):
         form = forms.SignupRequest(request.POST)
         if form.is_valid():
             print("Form validation success. Going to save data into Database", form.cleaned_data)
-            ctx = {'name': form.cleaned_data['firstName']}
+            ctx = {'name': form.cleaned_data['firstName'], 'title' : 'Thank You'}
 
             #Saving into a database
             form.save(commit=True)
@@ -27,12 +27,12 @@ def getProfile(request):
             form = forms.SignupRequest()
             return render(request, 'twmprofile/thankyou.html', ctx)
         else:
-            ctx = {'today': datetime.datetime.now(), 'profiles': profiles, 'form': form}
+            ctx = {'today': datetime.datetime.now(), 'profiles': profiles, 'form': form, 'title' : 'Profile Information'}
             return render(request, 'twmprofile/wish.html', context=ctx)
 
     elif (request.method == 'GET'):
         form = forms.SignupRequest()
-        ctx = {'today' : datetime.datetime.now(), 'profiles': profiles, 'form': form}
+        ctx = {'today' : datetime.datetime.now(), 'profiles': profiles, 'form': form, 'title' : 'Profile Information'}
         return render(request, 'twmprofile/wish.html', context=ctx)
 
     return render(request, 'twmprofile/wish.html')

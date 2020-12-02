@@ -1,14 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Thank you</title>
-</head>
-<body>
+{% extends 'twmprofile/common/main.html'%}
 
-<h>Congratulation {{name}}!! You are successfully signed up!!</h>
-
-<p>Go <a href="/twmprofile/profile">Back</a></p>
-
-</body>
-</html>
+{% block body_part %}
+        <h>Congratulation {{name}}!! You are successfully signed up!!</h>
+        <p>Go <a href="/twmprofile/profile">Back</a></p>
+{% endblock %}

@@ -15,7 +15,7 @@ class SignupRequest(forms.ModelForm):
     firstName = forms.CharField()
     lastName = forms.CharField()
     age = forms.IntegerField(required=False)
-    comment = forms.CharField(required=False, label='Enter comment here', widget=forms.Textarea, validators=[validators.MaxLengthValidator(10)]) # emplicit validation
+    comment = forms.CharField(required=False, label='Enter comment here', widget=forms.Textarea, validators=[validators.MaxLengthValidator(20)]) # emplicit validation
     bot_handler = forms.CharField(required=False, widget=forms.HiddenInput)
 
     #release_date = forms.DateField(widget=DateInput(attrs={'class': 'yms'}))
@@ -25,7 +25,7 @@ class SignupRequest(forms.ModelForm):
         model = Profile
 
         # I want all fields present inside model
-        #fields = '__all__'
+        fields = '__all__'
 
         # I want to specify what to save in db, This means for age it will take the default of 18 since we have defined 18 in Profile model
         # Remember this is a tuple
@@ -33,7 +33,7 @@ class SignupRequest(forms.ModelForm):
 
         # I want to save all except these fields
         # Remember this is a list
-        exclude = ['firstName', 'lastName']
+        #exclude = ['firstName', 'lastName']
 
 
 
@@ -55,8 +55,8 @@ class SignupRequest(forms.ModelForm):
             raise forms.ValidationError('This form is submitted by a robot, could not be proceed.')
 
         enteredPassword = cleaned_data['password']
-        if(len(enteredPassword) > 5):
-            raise forms.ValidationError('Password length must not be greater than 5')
+        if(len(enteredPassword) > 10):
+            raise forms.ValidationError('Password length must not be greater than 10')
 
         enteredAge = self.cleaned_data['age']
         if enteredAge is None:
