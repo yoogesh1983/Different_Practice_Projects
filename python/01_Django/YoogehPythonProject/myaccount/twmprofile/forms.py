@@ -1,5 +1,6 @@
 from django import forms
 from django.core import validators
+from django.forms import DateInput
 from twmprofile.models import Profile
 
 class SignupRequest(forms.ModelForm):
@@ -16,6 +17,9 @@ class SignupRequest(forms.ModelForm):
     age = forms.IntegerField(required=False)
     comment = forms.CharField(required=False, label='Enter comment here', widget=forms.Textarea, validators=[validators.MaxLengthValidator(10)]) # emplicit validation
     bot_handler = forms.CharField(required=False, widget=forms.HiddenInput)
+
+    #release_date = forms.DateField(widget=DateInput(attrs={'class': 'yms'}))
+    #director_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Profile
