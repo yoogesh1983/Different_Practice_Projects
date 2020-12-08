@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'twmprofile/common/main.html'%}
+
+{% block body_part %}
+        <h>Login</h>
+
+<form method="POST">
+    {{form.as_p}}
+        {% csrf_token %}
+        <input type="submit" value="Login"/>
+</form>
+{% endblock %}

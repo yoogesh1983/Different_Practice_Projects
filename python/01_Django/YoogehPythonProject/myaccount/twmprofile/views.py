@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from twmprofile.models import Profile
 
@@ -42,3 +43,7 @@ def getProfile(request):
     response.set_cookie('count', int(request.COOKIES.get('count', 0)) + 1) # max_age is optonal
 
     return response
+
+@login_required
+def getJavaExamView(request):
+    return render(request, 'twmprofile/javaExam.html')
