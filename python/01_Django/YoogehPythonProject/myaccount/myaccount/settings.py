@@ -124,3 +124,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     STATIC_DIR,
 ]
+
+#This will tell where to redirect after the successful login and logout
+LOGIN_REDIRECT_URL = '/twmprofile/profile/'
+LOGOUT_REDIRECT_URL = '/twmprofile/profile/'
