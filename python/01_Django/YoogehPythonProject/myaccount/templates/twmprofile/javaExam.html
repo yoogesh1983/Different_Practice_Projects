@@ -3,4 +3,16 @@
 
 {% block body_part %}
         <h>Welcome to Java Exam</h>
+
+<!-- Handling form -->
+<div class="yms_form">
+
+    <!-- <form action="/login" method="POST"> -->
+    <!-- Since you have not provided the action below, the same view action i.e. profile/ is called -->
+    <form method="POST">
+        {{form.as_p}}
+        {% csrf_token %}
+        <input type="submit" value="Admin Signup" class="yms_button"/>
+    </form>
+</div>
 {% endblock %}

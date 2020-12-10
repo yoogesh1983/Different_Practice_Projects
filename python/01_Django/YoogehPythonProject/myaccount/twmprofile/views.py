@@ -46,4 +46,26 @@ def getProfile(request):
 
 @login_required
 def getJavaExamView(request):
-    return render(request, 'twmprofile/javaExam.html')
+    redirecturl = 'twmprofile/javaExam.html'
+    ctx = ''
+    if request.method == 'POST':
+        # handling form submission scenario
+        form = forms.AdminSignupRequest(request.POST)
+        if form.is_valid():
+            print("Form validation success. Going to save data into Database", form.cleaned_data)
+            ctx = {'name': form.cleaned_data['first_name'], 'title': 'Thank You'}
+
+            # Saving into a database
+            form.save(commit=True)
+
+            form = forms.AdminSignupRequest()
+            redirecturl = 'twmprofile/thankyou.html'
+        else:
+            ctx = {'form': form}
+            redirecturl = 'twmprofile/javaExam.html'
+    else:
+        form = forms.AdminSignupRequest()
+        ctx = {'form': form}
+        redirecturl = 'twmprofile/javaExam.html'
+
+    return render(request, redirecturl, ctx)

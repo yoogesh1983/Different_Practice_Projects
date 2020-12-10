@@ -1,5 +1,6 @@
 from django import forms
 from django.core import validators
+from django.contrib.auth.models import User
 from django.forms import DateInput
 from twmprofile.models import Profile
 
@@ -63,5 +64,14 @@ class SignupRequest(forms.ModelForm):
             raise forms.ValidationError('Age must be required.')
 
         print("Total form validation completed. Everything looks good.....")
+
+class AdminSignupRequest(forms.ModelForm):
+    class Meta:
+        model = User
+
+        # I want to specify what to save in db, This means for age it will take the default of 18 since we have defined 18 in Profile model
+        # Remember this is a tuple
+        fields = ('username', 'password', 'email', 'first_name', 'last_name')
+
 
 
