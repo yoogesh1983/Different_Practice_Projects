@@ -9,37 +9,12 @@
 </div>
 
 <p><a href="/accounts/login">Login</a></p>
-<p><a href="/twmprofile/javaexam">Java Exam</a></p>
+<span><a href="/accounts/logout">Logout</a></span>
 
 <p class="yms">Today Date: {{today}}</p>
 
-<!-- This is a ginga2 template language -->
-{% if profiles %}
-<table>
-    <thead>
-    <th>ID</th>
-    <th>Username</th>
-    <th>FirstName</th>
-    <th>LastName</th>
-    <th>Age</th>
-    </thead>
-    {% for next in profiles %}
-    <tr>
-        <td>{{next.id}}</td>
-        <td>{{next.username}}</td>
-        <td>{{next.firstName}}</td>
-        <td>{{next.lastName}}</td>
-        <td>{{next.age}}</td>
-    </tr>
-    {% endfor %}
-
-</table>
-{% else %}
-<p>No profiles found</p>
-{% endif %}
-
-<!-- Handling form -->
-<div class="yms_form">
+<!-- Handling form  Start -->
+<div class="yms_form" style="width:36%;">
 
     <!-- <form action="/login" method="POST"> -->
     <!-- Since you have not provided the action below, the same view action i.e. profile/ is called -->
@@ -49,5 +24,8 @@
         <input type="submit" value="Signup" class="yms_button"/>
     </form>
 </div>
+
+<!-- Handling form End -->
+
 {% endblock %}
 

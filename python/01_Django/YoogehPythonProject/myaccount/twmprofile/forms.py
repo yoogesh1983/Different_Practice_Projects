@@ -65,6 +65,8 @@ class SignupRequest(forms.ModelForm):
 
         print("Total form validation completed. Everything looks good.....")
 
+
+
 class AdminSignupRequest(forms.ModelForm):
     class Meta:
         model = User
