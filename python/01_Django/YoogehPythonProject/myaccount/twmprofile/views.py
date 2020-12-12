@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from twmprofile.models import Profile
 
@@ -55,11 +56,14 @@ def getJavaExamView(request):
             print("Form validation success. Going to save data into Database", form.cleaned_data)
             ctx = {'name': form.cleaned_data['first_name'], 'title': 'Thank You'}
 
-            # Saving into a database
-            form.save(commit=True)
+            # Saving into a database (You must set password after form.save to save the encrypted data into database)
+            # Otherewise it will not work
+            user = form.save(commit=True)
+            user.set_password(user.password)
+            user.save()
 
             form = forms.AdminSignupRequest()
-            redirecturl = 'twmprofile/thankyou.html'
+            return HttpResponseRedirect('/accounts/login')
         else:
             ctx = {'form': form}
             redirecturl = 'twmprofile/javaExam.html'

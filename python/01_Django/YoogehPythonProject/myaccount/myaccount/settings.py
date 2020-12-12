@@ -128,3 +128,20 @@ STATICFILES_DIRS=[
 #This will tell where to redirect after the successful login and logout
 LOGIN_REDIRECT_URL = '/twmprofile/profile/'
 LOGOUT_REDIRECT_URL = '/twmprofile/profile/'
+
+
+#It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then
+# on and on and one after wards... but make sure to install this using pip install command
+# for example:
+      # pip install bcrypt
+      # pip install django[argon2]
+
+PASSWORD_HASHERS=[
+    #'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
+
+
