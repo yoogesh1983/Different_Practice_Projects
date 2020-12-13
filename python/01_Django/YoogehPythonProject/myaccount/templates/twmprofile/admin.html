@@ -2,7 +2,7 @@
 {% extends 'twmprofile/common/main.html'%}
 
 {% block body_part %}
-        <h>Welcome to Java Exam</h>
+        <h>Administrator View</h>
 
 <!-- Handling form -->
 <div class="yms_form" style="width:36%;">
@@ -12,7 +12,7 @@
     <form method="POST">
         {{form.as_p}}
         {% csrf_token %}
-        <input type="submit" value="Admin Signup" class="yms_button"/>
+        <input type="submit" value="Create Admin Account" class="yms_button"/>
     </form>
 </div>
 {% endblock %}

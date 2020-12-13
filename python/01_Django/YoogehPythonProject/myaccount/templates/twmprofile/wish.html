@@ -8,9 +8,6 @@
     <img class="sunny" src="{% static "image/django.png" %}"
 </div>
 
-<p><a href="/accounts/login">Login</a></p>
-<p><a href="/twmprofile/javaexam">Java Exam</a></p>
-
 <p class="yms">Today Date: {{today}}</p>
 
 <!-- This is a ginga2 template language -->
@@ -22,6 +19,7 @@
     <th>FirstName</th>
     <th>LastName</th>
     <th>Age</th>
+    <th>Action</th>
     </thead>
     {% for next in profiles %}
     <tr>
@@ -30,6 +28,7 @@
         <td>{{next.firstName}}</td>
         <td>{{next.lastName}}</td>
         <td>{{next.age}}</td>
+        <td><a href="/twmprofile/updateProfile/{{next.id}}"><strong>Update</strong></a> &nbsp; &nbsp; <a href="/twmprofile/deleteProfile/{{next.id}}"><strong>Delete</strong></a></td>
     </tr>
     {% endfor %}
 

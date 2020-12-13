@@ -14,8 +14,10 @@ def populate(n):
         username=fake.email()
         firstName = fake.name()
         lastName = fake.name()
+        password = "1234"
         age = randint(20,45)
         student_record = Profile.objects.get_or_create(username=username,
+                                                       password=password,
                                                        firstName=firstName,
                                                        lastName=lastName,
                                                        age=age)

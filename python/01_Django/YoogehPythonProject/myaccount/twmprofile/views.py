@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from twmprofile.models import Profile
 
 from . import forms
@@ -46,8 +46,8 @@ def getProfile(request):
     return response
 
 @login_required
-def getJavaExamView(request):
-    redirecturl = 'twmprofile/javaExam.html'
+def getAdminView(request):
+    redirecturl = 'twmprofile/admin.html'
     ctx = ''
     if request.method == 'POST':
         # handling form submission scenario
@@ -66,10 +66,44 @@ def getJavaExamView(request):
             return HttpResponseRedirect('/accounts/login')
         else:
             ctx = {'form': form}
-            redirecturl = 'twmprofile/javaExam.html'
+            redirecturl = 'twmprofile/admin.html'
     else:
         form = forms.AdminSignupRequest()
         ctx = {'form': form}
-        redirecturl = 'twmprofile/javaExam.html'
+        redirecturl = 'twmprofile/admin.html'
 
     return render(request, redirecturl, ctx)
+
+
+# Create
+def InsertIntoProfiles(request):
+    form = forms.SignupRequest(request.POST)
+    form.save(commit=True)
+
+# Read
+def getAllProfiles(request):
+    profiles = Profile.objects.all()
+    # profiles = Profile.objects.filter(age__lt=35)
+    # profiles=Profile.objects.filter(username__startswith='A')
+    # profiles=Profile.objects.all().order_by('username')
+    # profiles=Profile.objects.all().order_by('-age')
+
+# update
+def updateProfile(request, id):
+    existingProfile = Profile.objects.get(id=id)
+    if request.method == 'POST':
+        form = forms.ProfileUpdateRequest(request.POST, instance=existingProfile) # A record will be considered new if you do not provide instance=Profile
+        print('Is form valid', form.is_valid())
+        if form.is_valid():
+            form.save()
+            return redirect('/twmprofile/profile')
+
+    return render(request, 'twmprofile/update.html', {'profile': existingProfile})
+
+# delete
+def deleteProfile(request, id):
+    print("Deleting profile with id", id)
+    profile = Profile.objects.get(id=id)
+    profile.delete()
+    return redirect('/twmprofile/profile')
+

@@ -65,6 +65,13 @@ class SignupRequest(forms.ModelForm):
 
         print("Total form validation completed. Everything looks good.....")
 
+class ProfileUpdateRequest(forms.ModelForm):
+    class Meta:
+        model = Profile
+
+        # Remember this is a tuple
+        fields = ('username', 'password', 'firstName', 'lastName', 'age')
+
 class AdminSignupRequest(forms.ModelForm):
     class Meta:
         model = User

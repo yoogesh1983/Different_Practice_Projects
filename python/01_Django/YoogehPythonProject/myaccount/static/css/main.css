@@ -8,10 +8,11 @@
 
 td, table{
     margin:left;
-    border:2px solid red;
+    border:1px solid #7a83af;
     color:black;
     background:white;
     font-size:10px;
+    border-collapse: collapse;
 }
 
 thead{

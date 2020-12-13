@@ -8,7 +8,12 @@
 </head>
 <body>
     <div style="height:20px; border: solid blue 2px; background-color: green;">
-        <span><a href="/accounts/logout">Logout</a></span>
+        <span style="float: right;">
+            <a href="/twmprofile/profile" style="color:white; margin-right: 40px;">Home</a>
+            <a href="/twmprofile/admin" style="color:white; margin-right: 40px;">Admin</a>
+            <a href="/accounts/login" style="color:white; margin-right: 40px;">Login</a>
+            <a href="/accounts/logout" style="color:white;">Logout</a>
+        </span>
     </div>
 
     {% block body_part %}
