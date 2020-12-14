@@ -16,4 +16,5 @@ urlpatterns = [
     #Class Based Views
     path('test/', classBasedViews.HelloworldView.as_view()),
     path('test-template/', classBasedViews.HelloworldTemplateView.as_view()),
+    path('test-template-context/', classBasedViews.HelloworldContextTemplateView.as_view()),
 ]
