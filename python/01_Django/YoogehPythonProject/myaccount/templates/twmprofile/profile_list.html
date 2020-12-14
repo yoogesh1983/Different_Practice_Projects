@@ -1,0 +1,35 @@
+<!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
+{% extends 'twmprofile/common/main.html'%}
+{% load static %}
+
+
+{% block body_part %}
+
+<h1>Profile List View with Class Based View</h1>
+
+<!-- This is a ginga2 template language -->
+{% if profile_list %}
+<table>
+    <thead>
+    <th>ID</th>
+    <th>Username</th>
+    <th>FirstName</th>
+    <th>LastName</th>
+    <th>Age</th>
+    </thead>
+    {% for next in profile_list %}
+    <tr>
+        <td>{{next.id}}</td>
+        <td>{{next.username}}</td>
+        <td>{{next.firstName}}</td>
+        <td>{{next.lastName}}</td>
+        <td>{{next.age}}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+<p>No profiles found</p>
+{% endif %}
+</table>
+
+
+{% endblock %}

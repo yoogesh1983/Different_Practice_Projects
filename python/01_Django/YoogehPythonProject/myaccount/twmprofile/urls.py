@@ -17,4 +17,6 @@ urlpatterns = [
     path('test/', classBasedViews.HelloworldView.as_view()),
     path('test-template/', classBasedViews.HelloworldTemplateView.as_view()),
     path('test-template-context/', classBasedViews.HelloworldContextTemplateView.as_view()),
+    path('listView/', classBasedViews.ProfileListView.as_view()),
+    path('detailView/', classBasedViews.ProfileDetailView.as_view()),
 ]

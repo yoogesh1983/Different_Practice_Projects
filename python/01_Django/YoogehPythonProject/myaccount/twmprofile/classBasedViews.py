@@ -1,5 +1,8 @@
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView
 from django.views.generic.base import View, TemplateView
+
+from twmprofile.models import Profile
 
 
 class HelloworldView(View):
@@ -19,3 +22,23 @@ class HelloworldContextTemplateView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['firstName'] = 'Yoogesh'
         return ctx
+
+class ProfileListView(ListView):
+    model=Profile
+    #default template: profile_list.html i.e. LowerCaseofthemodel_list.html
+    #default conext object: profile_list i.e. Lowercaseofmodel_list
+
+    #This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
+    template_name = 'twmprofile/profile_list.html'
+    context_object_name = 'profile_list'
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    #default template: profile_detail.html i.e. LowerCaseofthemodel_list.html
+    #default conext object: profile i.e. Lowercaseofmodel_list
+
+    #This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
+    template_name = 'twmprofile/profile_detail.html'
+    context_object_name = 'profile'
+
+
