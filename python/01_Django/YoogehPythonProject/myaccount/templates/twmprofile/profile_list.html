@@ -19,7 +19,7 @@
     </thead>
     {% for next in profile_list %}
     <tr>
-        <td>{{next.id}}</td>
+        <td><a href="/twmprofile/detailView/{{next.id}}">{{next.id}}</a></td>
         <td>{{next.username}}</td>
         <td>{{next.firstName}}</td>
         <td>{{next.lastName}}</td>

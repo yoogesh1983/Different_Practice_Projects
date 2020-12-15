@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile Detail</title>
-</head>
-<body>
+{% extends 'twmprofile/common/main.html'%}
 
-<h1>Detail view</h1>
+{% block body_part %}
 
-</body>
-</html>
+<h1>Profile Detail</h1>
+
+<table>
+	<tr>
+		<th>Key</th>
+		<th>Vale</th>
+	</tr>
+
+	<tr>
+		<td>Primary Key/id</td>
+		<td>{{profile.id}}</td>
+	</tr>
+
+	<tr>
+		<td> Username </td>
+		<td>{{profile.username}}</td>
+	</tr>
+
+	<tr>
+		<td>firstName</td>
+		<td>{{profile.firstName}}</td>
+	</tr>
+
+	<tr>
+		<td>lastName</td>
+		<td>{{profile.lastName}}</td>
+	</tr>
+
+	<tr>
+		<td>Age</td>
+		<td>{{profile.age}}</td>
+	</tr>
+
+</table>
+
+{% endblock %}
