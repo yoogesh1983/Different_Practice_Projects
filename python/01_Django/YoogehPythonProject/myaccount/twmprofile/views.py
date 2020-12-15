@@ -15,7 +15,7 @@ def getProfile(request):
     # profiles=Profile.objects.all().order_by('username')
     # profiles=Profile.objects.all().order_by('-age')
 
-    redirecturl = 'twmprofile/wish.html'
+    redirecturl = 'twmprofile/home.html'
     ctx = ''
 
     if request.method == 'POST':
@@ -32,12 +32,12 @@ def getProfile(request):
             redirecturl = 'twmprofile/thankyou.html'
         else:
             ctx = {'today': datetime.datetime.now(), 'profiles': profiles, 'form': form, 'title': 'Profile Information'}
-            redirecturl = 'twmprofile/wish.html'
+            redirecturl = 'twmprofile/home.html'
 
     elif request.method == 'GET':
         form = forms.SignupRequest()
         ctx = {'today': datetime.datetime.now(), 'profiles': profiles, 'form': form, 'title': 'Profile Information'}
-        redirecturl = 'twmprofile/wish.html'
+        redirecturl = 'twmprofile/home.html'
 
     response = render(request, redirecturl, ctx)
     #response.set_cookie('count', int(request.COOKIES.get('count', 0)) + 1, max_age=180) # max_age is optonal
