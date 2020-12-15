@@ -5,12 +5,10 @@
 
 {% block body_part %}
 <div style="margin: 15px;">
-    <img class="sunny" src="{% static "image/django.png" %}"
+    <img class="sunny" src="{% static "image/django.png" %}">
 </div>
 
 <p class="yms">Today Date: {{today}}</p>
-
-<div style="margin-bottom:20px;">Go to ClassBased Listview: &nbsp; <a href="/twmprofile/listView">click</a></div>
 
 <!-- This is a ginga2 template language -->
 {% if profiles %}
