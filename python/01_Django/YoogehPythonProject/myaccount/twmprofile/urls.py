@@ -18,6 +18,15 @@ urlpatterns = [
     path('test-template/', classBasedViews.HelloworldTemplateView.as_view()),
     path('test-template-context/', classBasedViews.HelloworldContextTemplateView.as_view()),
 
+#CRUD Operation with ClassBasedViews
+    #Create
+    path('createView/', classBasedViews.CreateProfileView.as_view()),
+
+    # Read
     path('listView/', classBasedViews.ProfileListView.as_view()),
-    re_path('detailView/(?P<pk>\d+)/$', classBasedViews.ProfileDetailView.as_view()),
+    re_path('detailView/(?P<pk>\d+)/$', classBasedViews.ProfileDetailView.as_view(), name='detail'),
+
+    # Update
+    re_path('updateView/(?P<pk>\d+)/$', classBasedViews.UpdateProrofileView.as_view()),
+
 ]

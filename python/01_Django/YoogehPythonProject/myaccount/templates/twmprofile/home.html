@@ -19,7 +19,8 @@
     <th>FirstName</th>
     <th>LastName</th>
     <th>Age</th>
-    <th>Action</th>
+    <th>Action(FBV)</th>
+    <th>Action(CBV)</th>
     </thead>
     {% for next in profiles %}
     <tr>
@@ -29,6 +30,7 @@
         <td>{{next.lastName}}</td>
         <td>{{next.age}}</td>
         <td><a href="/twmprofile/updateProfile/{{next.id}}"><strong>Update</strong></a> &nbsp; &nbsp; <a href="/twmprofile/deleteProfile/{{next.id}}"><strong>Delete</strong></a></td>
+        <td><a href="/twmprofile/updateView/{{next.id}}"><strong>Update</strong></a> &nbsp; &nbsp; <a href="/twmprofile/deleteView/{{next.id}}"><strong>Delete</strong></a></td>
     </tr>
     {% endfor %}
 

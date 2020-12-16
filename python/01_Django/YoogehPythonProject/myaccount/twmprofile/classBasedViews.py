@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.base import View, TemplateView
 
 from twmprofile.models import Profile
@@ -23,6 +23,9 @@ class HelloworldContextTemplateView(TemplateView):
         ctx['firstName'] = 'Yoogesh'
         return ctx
 
+
+#CRUD based views using Class based views
+#####################################################
 class ProfileListView(ListView):
     model=Profile
     #default template: profile_list.html i.e. LowerCaseofthemodel_list.html
@@ -40,5 +43,24 @@ class ProfileDetailView(DetailView):
     #This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
     template_name = 'twmprofile/profile_detail.html'
     context_object_name = 'profile'
+
+class CreateProfileView(CreateView):
+    model = Profile
+    fields = ('username', 'password', 'firstName', 'lastName', 'age')
+    #default template: profile_form.html
+
+    #This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
+    template_name = 'twmprofile/profile_form.html'
+
+    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL
+    # that tells where do you want to redirect after successful insertion
+
+class UpdateProrofileView(UpdateView):
+    model = Profile
+    fields = ('username', 'firstName', 'lastName', 'age')
+    # default template: profile_form.html
+
+    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL
+    # that tells where do you want to redirect after successful updation
 
 
