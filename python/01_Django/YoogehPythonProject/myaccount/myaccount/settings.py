@@ -126,8 +126,8 @@ STATICFILES_DIRS=[
 ]
 
 #This will tell where to redirect after the successful login and logout
-LOGIN_REDIRECT_URL = '/twmprofile/profile/'
-LOGOUT_REDIRECT_URL = '/twmprofile/profile/'
+LOGIN_REDIRECT_URL = '/twmprofile/home/'
+LOGOUT_REDIRECT_URL = '/twmprofile/home/'
 
 
 #It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then

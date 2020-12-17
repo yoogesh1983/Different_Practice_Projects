@@ -96,7 +96,7 @@ def updateProfile(request, id):
         print('Is form valid', form.is_valid())
         if form.is_valid():
             form.save()
-            return redirect('/twmprofile/profile')
+            return redirect('/twmprofile/home')
 
     return render(request, 'twmprofile/update.html', {'profile': existingProfile})
 
@@ -105,5 +105,5 @@ def deleteProfile(request, id):
     print("Deleting profile with id", id)
     profile = Profile.objects.get(id=id)
     profile.delete()
-    return redirect('/twmprofile/profile')
+    return redirect('/twmprofile/home')
 

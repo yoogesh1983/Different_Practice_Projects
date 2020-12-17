@@ -5,7 +5,7 @@ from twmprofile import classBasedViews
 urlpatterns = [
 
     #Function Based views
-    path('profile/', views.getProfile),
+    path('home/', views.getProfile),
     path('admin/', views.getAdminView),
     # replace id with the number of digits. d+ means digits can be of any numbers. if we don't provide + then it means only one digit
     # $ means do not take anything after id
@@ -23,10 +23,13 @@ urlpatterns = [
     path('createView/', classBasedViews.CreateProfileView.as_view()),
 
     # Read
-    path('listView/', classBasedViews.ProfileListView.as_view()),
+    path('listView/', classBasedViews.ProfileListView.as_view(), name='profiles'),
     re_path('detailView/(?P<pk>\d+)/$', classBasedViews.ProfileDetailView.as_view(), name='detail'),
 
     # Update
     re_path('updateView/(?P<pk>\d+)/$', classBasedViews.UpdateProrofileView.as_view()),
+
+    # Delete
+    re_path('deleteView/(?P<pk>\d+)/$', classBasedViews.DeleteProrofileView.as_view()),
 
 ]

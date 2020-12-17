@@ -3,7 +3,9 @@
 
 {% block body_part %}
 
-<h1>Profile Form</h1>
+<h1>Confirm Delete</h1>
+
+<p>Are you sure you want to delete <strong>{{profile.username}}</strong> ?</p>
 
 <!-- Handling form -->
 <div class="yms_form">
@@ -11,9 +13,9 @@
     <!-- <form action="/login" method="POST"> -->
     <!-- Since you have not provided the action below, the same view action i.e. profile/ is called -->
     <form method="POST">
-        {{form.as_p}}
         {% csrf_token %}
-        <input type="submit" value="signup | update" class="yms_button"/>
+        <input type="submit" value="Yes" class="yms_button"/> &nbsp;&nbsp;
+        <a href="/twmprofile/home" style="border:1px solid #353333; background-color: rgb(245 240 240);">Cancel</a>
     </form>
 </div>
 

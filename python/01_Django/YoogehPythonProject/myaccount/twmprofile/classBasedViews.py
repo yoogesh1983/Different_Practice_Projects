@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import View, TemplateView
 
 from twmprofile.models import Profile
@@ -46,21 +47,29 @@ class ProfileDetailView(DetailView):
 
 class CreateProfileView(CreateView):
     model = Profile
-    fields = ('username', 'password', 'firstName', 'lastName', 'age')
+    #fields = ('username', 'password', 'firstName', 'lastName', 'age')
+    fields = '__all__'
     #default template: profile_form.html
+    #default_context_object: There will be no context in this view
 
     #This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
     template_name = 'twmprofile/profile_form.html'
 
-    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL
-    # that tells where do you want to redirect after successful insertion
+    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL that tells where do you want to redirect after successful insertion
 
 class UpdateProrofileView(UpdateView):
     model = Profile
     fields = ('username', 'firstName', 'lastName', 'age')
     # default template: profile_form.html
+    # default_context_object: There will be no context in this view
 
-    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL
-    # that tells where do you want to redirect after successful updation
+    # Besides this, You must provide a method "get_absolute_url(self)" in a model.py and here you should give a reverse URL that tells where do you want to redirect after successful updation
 
+class DeleteProrofileView(DeleteView):
+    model = Profile
+    success_url = reverse_lazy('profiles')
+
+    # This is optional as this will be the default used by django. however if you want to provide your own then you can use this approach
+    # default template: profile_confirm_delete.html
+    # default_context_object: profile
 
