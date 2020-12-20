@@ -1,7 +1,7 @@
 from django.contrib import admin
-from twmprofile.models import Profile
+from twmprofile.models import Post
 
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'firstName', 'age']
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug', 'author', 'publish', 'created', 'updated', 'status']
 
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Post, PostAdmin)

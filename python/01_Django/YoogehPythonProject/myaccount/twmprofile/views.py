@@ -3,21 +3,12 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from twmprofile.models import Profile
 
 from . import forms
 
-
+"""
 def getProfile(request):
     profiles = Profile.objects.all()
-    # profiles = Profile.objects.filter(age__lt=35)
-    # profiles=Profile.objects.filter(username__startswith='A')
-    # profiles=Profile.objects.all().order_by('username')
-    # profiles=Profile.objects.all().order_by('-age')
-
-    print("Profile shorted by FirstName:", Profile.objects.all())
-
-    print("Here is profiles with range between 25 to 35:", Profile.objects.getProfileWithAgeRange(25, 35))
 
     redirecturl = 'twmprofile/home.html'
     ctx = ''
@@ -111,3 +102,4 @@ def deleteProfile(request, id):
     profile.delete()
     return redirect('/twmprofile/home')
 
+"""
