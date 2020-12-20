@@ -15,6 +15,10 @@ def getProfile(request):
     # profiles=Profile.objects.all().order_by('username')
     # profiles=Profile.objects.all().order_by('-age')
 
+    print("Profile shorted by FirstName:", Profile.objects.all())
+
+    print("Here is profiles with range between 25 to 35:", Profile.objects.getProfileWithAgeRange(25, 35))
+
     redirecturl = 'twmprofile/home.html'
     ctx = ''
 
