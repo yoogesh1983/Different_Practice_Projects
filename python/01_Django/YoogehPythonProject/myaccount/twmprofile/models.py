@@ -7,7 +7,7 @@ from django.utils import timezone
 class Post(models.Model):
     STATUS_CHOICES=(('draft', 'Draft'), ('published', 'Published')) #Tuple inside tuple
     title=models.CharField(max_length=256)
-    slug=models.SlugField(max_length=264, unique_for_date='publish')
+    slug=models.SlugField(max_length=264, unique_for_date='publish') # It is used to build SEO friendly URL
     author=models.ForeignKey(User, related_name='blog_posts', on_delete=models.CASCADE)
     body= models.TextField()
     publish=models.DateTimeField(default=timezone.now)
