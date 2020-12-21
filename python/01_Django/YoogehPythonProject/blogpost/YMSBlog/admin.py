@@ -1,5 +1,5 @@
 from django.contrib import admin
-from twmprofile.models import Post
+from YMSBlog.models import Post
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'author', 'publish', 'created', 'updated', 'status']

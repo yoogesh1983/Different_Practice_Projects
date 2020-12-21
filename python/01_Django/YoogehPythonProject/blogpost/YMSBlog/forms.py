@@ -2,8 +2,9 @@ from django import forms
 from django.core import validators
 from django.contrib.auth.models import User
 from django.forms import DateInput
-from twmprofile.models import Profile
+from YMSBlog.models import Profile
 
+"""
 class SignupRequest(forms.ModelForm):
 
     # creating our own custom validator
@@ -80,5 +81,5 @@ class AdminSignupRequest(forms.ModelForm):
         # Remember this is a tuple
         fields = ('username', 'password', 'email', 'first_name', 'last_name')
 
-
+"""
 
