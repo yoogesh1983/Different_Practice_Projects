@@ -1,5 +1,7 @@
 from django.urls import path, re_path
 
-urlpatterns = [
+from YMSBlog import views
 
+urlpatterns = [
+    path('home/', views.getAllPost),
 ]

@@ -2,7 +2,6 @@ from django import forms
 from django.core import validators
 from django.contrib.auth.models import User
 from django.forms import DateInput
-from YMSBlog.models import Profile
 
 """
 class SignupRequest(forms.ModelForm):

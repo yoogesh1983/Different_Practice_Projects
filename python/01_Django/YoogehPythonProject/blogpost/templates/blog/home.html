@@ -1,0 +1,35 @@
+<!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
+{% extends 'blog/common/base.html'%}
+{% load static %}
+
+
+{% block body_part %}
+<!-- This is a ginga2 template language -->
+{% if blogs %}
+<table>
+    <thead>
+    <th>ID</th>
+    <th>Title</th>
+    <th>author</th>
+    <th>publish</th>
+    <th>Body</th>
+    </thead>
+    {% for next in blogs %}
+    <tr>
+        <td>{{next.id}}</td>
+        <td>{{next.title}}</td>
+        <td>{{next.author}}</td>
+        <td>{{next.publish}}</td>
+        <td>{{next.body}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<p>No profiles found</p>
+{% endif %}
+
+
+
+{% endblock %}
+

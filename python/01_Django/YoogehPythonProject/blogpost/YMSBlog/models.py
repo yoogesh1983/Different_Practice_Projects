@@ -23,7 +23,7 @@ class Post(models.Model):
         ordering=('-publish',)
 
     def __str__(self):
-        return 'title: ' + self.username + ' | author: ' + self.author
+        return 'title: ' + self.title + ' | author: ' + self.status
 
     def get_absolute_url(self):
         return reverse('detail',kwargs={'pk':self.pk})

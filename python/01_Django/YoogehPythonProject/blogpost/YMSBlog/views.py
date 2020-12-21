@@ -5,6 +5,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from . import forms
+from YMSBlog.models import Post
+
+def getAllPost(request):
+    blogs = Post.objects.all()
+    ctx = {'blogs': blogs}
+    return render(request, 'blog/home.html', ctx)
+
 
 """
 def getProfile(request):
