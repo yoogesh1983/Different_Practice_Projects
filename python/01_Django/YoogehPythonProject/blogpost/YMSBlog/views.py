@@ -10,7 +10,7 @@ from YMSBlog.models import Post
 def getAllPost(request):
     blogs = Post.objects.all()
     ctx = {'blogs': blogs}
-    return render(request, 'blog/home.html', ctx)
+    return render(request, 'blog/home/home.html', ctx)
 
 
 """
