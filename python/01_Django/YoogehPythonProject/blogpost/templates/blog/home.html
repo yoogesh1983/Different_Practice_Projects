@@ -12,15 +12,15 @@
     <th>Title</th>
     <th>author</th>
     <th>publish</th>
-    <th>Body</th>
+    <th>Slug</th>
     </thead>
     {% for next in blogs %}
     <tr>
         <td>{{next.id}}</td>
-        <td>{{next.title}}</td>
+        <td><a href="{{next.get_absolute_url}}">{{next.title}}</a></td>
         <td>{{next.author}}</td>
         <td>{{next.publish}}</td>
-        <td>{{next.body}}</td>
+        <td>{{next.slug}}</td>
     </tr>
     {% endfor %}
 

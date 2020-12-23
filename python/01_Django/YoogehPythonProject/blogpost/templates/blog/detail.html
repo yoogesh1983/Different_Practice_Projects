@@ -1,0 +1,14 @@
+<!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
+{% extends 'blog/common/base.html'%}
+{% load static %}
+{% block body_part %}
+<!--You code starts here -->
+
+<h1>{{post.title}}</h1>
+
+<div style="border:1px solid brown;">
+    {{post.body}}
+</div>
+
+<!-- You code ends here -->
+{% endblock %}
