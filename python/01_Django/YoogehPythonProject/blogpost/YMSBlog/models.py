@@ -35,3 +35,10 @@ class Post(models.Model):
         # return reverse('detail',kwargs={'pk':self.pk})
         return reverse('detail',
                        args=[self.publish.year, self.publish.strftime('%m'), self.publish.strftime('%d'), self.slug])
+
+
+class EmailForm(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    to = models.EmailField()
+    comments = models.CharField(max_length=300)

@@ -17,7 +17,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = '&39$)8bk4@b!)vp2l)s0t-+aj%&pkhvmq2m)u^ugg__slnekc9'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -72,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blogpost.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -82,7 +79,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -102,7 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -116,32 +111,39 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS=[
+STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 
-#This will tell where to redirect after the successful login and logout
+# This will tell where to redirect after the successful login and logout
 LOGIN_REDIRECT_URL = '/YMSBlog/home/'
 LOGOUT_REDIRECT_URL = '/YMSBlog/home/'
 
-
-#It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then
+# It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then
 # on and on and one after wards... but make sure to install this using pip install command
 # for example:
-      # pip install bcrypt
-      # pip install django[argon2]
+# pip install bcrypt
+# pip install django[argon2]
 
-PASSWORD_HASHERS=[
-    #'django.contrib.auth.hashers.Argon2PasswordHasher',
+PASSWORD_HASHERS = [
+    # 'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
 
-
+# SMPT Mail Configuration
+########################
+# using gmail provided smtp server just like a mailGun which is third party. Default value is localhost.
+EMAIL_HOST = 'smtp.gmail.com'
+# default value is 25
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'myGmailUsername'
+EMAIL_HOST_PASSWORD = 'myGmailPassword'
+# Is secure email is required?
+EMAIL_USE_TLS = True

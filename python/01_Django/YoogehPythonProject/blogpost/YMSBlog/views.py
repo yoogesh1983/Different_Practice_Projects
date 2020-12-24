@@ -9,10 +9,13 @@ from django.views.generic import ListView
 from . import forms
 from YMSBlog.models import Post
 
+from .forms import EmailSendRequest
+
+
 def getAllPost(request):
     blogs = Post.objects.all()
 
-    paginator = Paginator(blogs, 1) # how many results in one page you want to display?
+    paginator = Paginator(blogs, 2) # how many results in one page you want to display?
     pageNumber = request.GET.get('page')
     try:
         blogs = paginator.page(pageNumber)
@@ -27,7 +30,7 @@ def getAllPost(request):
     ctx = {'blogs': blogs, 'classBasedView': True}
     return render(request, 'blog/home.html', ctx)
 
-def post_detail_view(request, year, month, day, post):
+def getPostDetail(request, year, month, day, post):
     ###### Both below are same ######
     #employee = Employee.objects.get(firstName__eq='yoogesh')
     #employee = get_object_or_404(Employee, firstName='yoogesh')
@@ -40,4 +43,26 @@ class getAllPost_ClassBasedView(ListView):
     paginate_by = 2
     template_name = 'blog/home.html'
     context_object_name = 'blogs'
-    page_kwarg = 'blogs'
+
+def sendMail(request, id):
+    post = get_object_or_404(Post, id=id, status='published')
+    redirecturl = 'blog/email.html'
+    ctx = ''
+
+    if request.method == 'POST':
+        # handling form submission scenario
+        form = EmailSendRequest(request.POST)
+        if form.is_valid():
+            cleanedData = form.cleaned_data
+            toEmail = form.cleaned_data['to']
+            form = EmailSendRequest()
+            ctx = {'name': toEmail, 'post': post, 'form': form}
+        else:
+            ctx = {'form': form, 'post': post}
+    elif request.method == 'GET':
+        form = EmailSendRequest();
+        ctx = {'form': form, 'post': post}
+
+    response = render(request, redirecturl, ctx)
+    return response
+

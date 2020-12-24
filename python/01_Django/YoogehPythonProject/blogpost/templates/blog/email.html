@@ -1,0 +1,27 @@
+<!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
+{% extends 'blog/common/base.html'%}
+{% load static %}
+{% block body_part %}
+<!--You code starts here -->
+
+{% if name %}
+     <h2>Successfully shared to {{name}} !!</h2>
+{% else %}
+     <h2>Share about {{post.title}} to your friend</h2>
+{% endif %}
+
+
+<!-- Handling form -->
+<div class="yms_form">
+
+    <!-- <form action="/login" method="POST"> -->
+    <!-- Since you have not provided the action below, the same view action i.e. home/ is called -->
+    <form method="POST">
+        {{form.as_p}}
+        {% csrf_token %}
+        <input type="submit" value="SendMail" class="yms_button"/>
+    </form>
+</div>
+
+<!-- You code ends here -->
+{% endblock %}
