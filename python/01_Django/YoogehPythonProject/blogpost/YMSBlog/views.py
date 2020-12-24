@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -53,8 +54,15 @@ def sendMail(request, id):
         # handling form submission scenario
         form = EmailSendRequest(request.POST)
         if form.is_valid():
-            cleanedData = form.cleaned_data
-            toEmail = form.cleaned_data['to']
+            cd = form.cleaned_data
+            name = cd['name']
+            toEmail = cd['to']
+            subject = '{} ({}) recommends you to read about "{}"!!'.format(name,cd['email'],post.title)
+            msg = 'Read Post At:\n {} \n\n{}\'s Comments:\n{}'.format(request.build_absolute_uri(post.get_absolute_url()),name, cd['comments'])
+
+            #Send Email
+            send_mail(subject, msg, 'donotReply@gmail.com', [toEmail])
+
             form = EmailSendRequest()
             ctx = {'name': toEmail, 'post': post, 'form': form}
         else:

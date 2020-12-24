@@ -140,10 +140,12 @@ PASSWORD_HASHERS = [
 # SMPT Mail Configuration
 ########################
 # using gmail provided smtp server just like a mailGun which is third party. Default value is localhost.
+# please enable below (which is off bydefault) so that it can access gmail
+#https://www.google.com/settings/security/lesssecureapps
 EMAIL_HOST = 'smtp.gmail.com'
 # default value is 25
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'myGmailUsername'
-EMAIL_HOST_PASSWORD = 'myGmailPassword'
+EMAIL_HOST_USER = 'username'
+EMAIL_HOST_PASSWORD = 'password'
 # Is secure email is required?
 EMAIL_USE_TLS = True
