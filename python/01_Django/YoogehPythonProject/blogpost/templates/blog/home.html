@@ -1,10 +1,10 @@
 <!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
 {% extends 'blog/common/base.html'%}
 {% load static %}
-
-
 {% block body_part %}
+<!--You code starts here -->
 <!-- This is a ginga2 template language -->
+
 {% if blogs %}
 <table>
     <thead>
@@ -25,11 +25,18 @@
     {% endfor %}
 
 </table>
+
+{% if classBasedView %}
+    {%include 'blog/common/pagination.html' with page=blogs%}
 {% else %}
-<p>No profiles found</p>
+    {%include 'blog/common/pagination.html' with page=page_obj%}
+{% endif %}
+
+{% else %}
+<p>No Posts found</p>
 {% endif %}
 
 
-
+<!-- You code ends here -->
 {% endblock %}
 

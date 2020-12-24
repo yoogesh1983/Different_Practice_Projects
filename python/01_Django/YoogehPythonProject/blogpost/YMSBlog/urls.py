@@ -4,6 +4,7 @@ from YMSBlog import views
 
 urlpatterns = [
     path('home/', views.getAllPost),
+    #path('home/', views.getAllPost_ClassBasedView.as_view()),
 
     # replace id with the number of digits. d+ means digits can be of any numbers. if we don't provide + then it means only one digit
     #[-\w]+ means you can take alphanumeric character any number of times (since post is not digits)
