@@ -5,6 +5,12 @@
 <!--You code starts here -->
 <!-- This is a ginga2 template language -->
 
+{% if tag %}
+<h1>Posts tagged with <strong>{{tag.name}}</strong></h1>
+{%else%}
+<h1>All Post Results</strong></h1>
+{% endif %}
+
 {% if blogs %}
 <table>
     <thead>
@@ -13,6 +19,7 @@
     <th>author</th>
     <th>publish</th>
     <th>Slug</th>
+    <th>Tags</th>
     </thead>
     {% for next in blogs %}
     <tr>
@@ -21,6 +28,14 @@
         <td>{{next.author}}</td>
         <td>{{next.publish}}</td>
         <td>{{next.slug}}</td>
+        <td>
+            {%for tag in next.tags.all%}
+                <a href="{%url 'allPostsByTagName' tag.slug%}"><strong>{{tag.name}}</strong></a>
+                {% if not forloop.last%},&nbsp;{%endif%}
+                <!-- <a href="/blog/tag/{{tag.name|lower}}"><strong>{{tag.name|lower}}</strong></a>,&nbsp; -->
+             {%endfor%}
+             <!-- {{next.tags.all|join:', '}} -->
+        </td>
     </tr>
     {% endfor %}
 

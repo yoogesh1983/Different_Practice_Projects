@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
+from taggit.models import Tag
 
 from . import forms
 from YMSBlog.models import Post
@@ -13,8 +14,12 @@ from YMSBlog.models import Post
 from .forms import EmailSendRequest, CommentRequest
 
 
-def getAllPost(request):
+def getAllPost(request, tag_slug=None):
     blogs = Post.objects.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        blogs = blogs.filter(tags__in=[tag])
 
     paginator = Paginator(blogs, 2)  # how many results in one page you want to display?
     pageNumber = request.GET.get('page')
@@ -28,7 +33,7 @@ def getAllPost(request):
         # This happens if somebody passes ?page=200 in a request url
         blogs = paginator.page(paginator.num_pages)
 
-    ctx = {'blogs': blogs, 'classBasedView': True}
+    ctx = {'blogs': blogs, 'classBasedView': True, 'tag': tag}
     return render(request, 'blog/home.html', ctx)
 
 
@@ -42,9 +47,9 @@ def getPostDetail(request, year, month, day, post):
     # We have specified related_name='comments' in models.py file and this is why we can use post.comments
     allComments = post.comments.filter(active=True)
     submitted = False
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         form = CommentRequest(request.POST)
-        if (form.is_valid()):
+        if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.post = post
             new_comment.save()
@@ -52,7 +57,7 @@ def getPostDetail(request, year, month, day, post):
     else:
         form = CommentRequest()
 
-    ctx = {'post': post, 'comments' : allComments ,'submitted': submitted, 'form': form}
+    ctx = {'post': post, 'comments': allComments, 'submitted': submitted, 'form': form}
     return render(request, 'blog/detail.html', ctx)
 
 

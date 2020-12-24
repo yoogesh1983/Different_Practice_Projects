@@ -7,6 +7,7 @@ urlpatterns = [
     #path('home/', views.getAllPost_ClassBasedView.as_view()),
 
     re_path('(?P<id>\d+)/share/$', views.sendMail),
+    re_path('tag/(?P<tag_slug>[-\w]+)/$', views.getAllPost, name='allPostsByTagName'),
 
     # replace id with the number of digits. d+ means digits can be of any numbers. if we don't provide + then it means only one digit
     #[-\w]+ means you can take alphanumeric character any number of times (since post is not digits)
