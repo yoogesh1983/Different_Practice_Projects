@@ -2,7 +2,7 @@ from django import forms
 from django.core import validators
 from django.contrib.auth.models import User
 from django.forms import DateInput
-from YMSBlog.models import EmailForm
+from YMSBlog.models import EmailForm, Comment
 
 
 class EmailSendRequest(forms.ModelForm):
@@ -16,6 +16,12 @@ class EmailSendRequest(forms.ModelForm):
 
         # I want all fields present inside model
         fields = '__all__'
+
+
+class CommentRequest(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'email', 'body')
 
 
 """

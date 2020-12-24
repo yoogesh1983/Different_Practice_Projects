@@ -6,16 +6,46 @@
 
 <h1>{{post.title}}</h1>
 
-<div style="border:1px solid brown;">
-    {{post.body}}
+<div style="border:2px solid #abb4ab;">
+    <span><i>published on: {{post.created}}</i></span></br></br>
+    &nbsp; &nbsp; {{post.body}}
 </div>
 
-<div style="margin-top: 20px;">
+<div style="margin-top: 20px; margin-left: 40%;">
     <span style="padding:10px;border:2px solid #abb4ab;background-color:green;text-color: white;">
         <a href="/blog/{{post.id}}/share" style="text-decoration: none;">
             <strong style="color: white; text-decoration: none;">Share Post By Email</strong>
         </a>
     </span>
+</div>
+
+<div style="margin-top: 38px;">
+    {% with comments.count as number_of_comments %}
+       <h2>{{number_of_comments}} Comment{{number_of_comments|pluralize}}</h2>
+    {% endwith %}
+    {%if comments%}
+           {% for next in comments%}
+                <div style="border-bottom: 2px solid green; font-size: 20px; width:35%"><i>Comment {{forloop.counter}} by {{next.name}} on {{next.created}}</i></div>
+                <div>
+                    {{next.body|linebreaks}}
+                </div>
+            {%endfor%}
+        {%else%}
+           <p>There are no Comments Yet!!</p>
+    {%endif%}
+
+    {% if submitted %}
+       <p>Your comment is added successfully.</p>
+    {%else%}
+        <div class="yms_form">
+            <form method="POST">
+                {{form.as_p}}
+                {% csrf_token %}
+                <input type="submit" value="Add Comment" class="yms_button"/>
+            </form>
+        </div>
+    {%endif%}
+
 </div>
 
 <!-- You code ends here -->

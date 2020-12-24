@@ -10,13 +10,13 @@ from django.views.generic import ListView
 from . import forms
 from YMSBlog.models import Post
 
-from .forms import EmailSendRequest
+from .forms import EmailSendRequest, CommentRequest
 
 
 def getAllPost(request):
     blogs = Post.objects.all()
 
-    paginator = Paginator(blogs, 2) # how many results in one page you want to display?
+    paginator = Paginator(blogs, 2)  # how many results in one page you want to display?
     pageNumber = request.GET.get('page')
     try:
         blogs = paginator.page(pageNumber)
@@ -31,19 +31,37 @@ def getAllPost(request):
     ctx = {'blogs': blogs, 'classBasedView': True}
     return render(request, 'blog/home.html', ctx)
 
+
 def getPostDetail(request, year, month, day, post):
     ###### Both below are same ######
-    #employee = Employee.objects.get(firstName__eq='yoogesh')
-    #employee = get_object_or_404(Employee, firstName='yoogesh')
-    post=get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month, publish__day= day)
-    ctx = {'post': post}
+    # employee = Employee.objects.get(firstName__eq='yoogesh')
+    # employee = get_object_or_404(Employee, firstName='yoogesh')
+    post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month,
+                             publish__day=day)
+
+    # We have specified related_name='comments' in models.py file and this is why we can use post.comments
+    allComments = post.comments.filter(active=True)
+    submitted = False
+    if (request.method == 'POST'):
+        form = CommentRequest(request.POST)
+        if (form.is_valid()):
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+            submitted = True
+    else:
+        form = CommentRequest()
+
+    ctx = {'post': post, 'comments' : allComments ,'submitted': submitted, 'form': form}
     return render(request, 'blog/detail.html', ctx)
 
+
 class getAllPost_ClassBasedView(ListView):
-    model=Post
+    model = Post
     paginate_by = 2
     template_name = 'blog/home.html'
     context_object_name = 'blogs'
+
 
 def sendMail(request, id):
     post = get_object_or_404(Post, id=id, status='published')
@@ -57,10 +75,11 @@ def sendMail(request, id):
             cd = form.cleaned_data
             name = cd['name']
             toEmail = cd['to']
-            subject = '{} ({}) recommends you to read about "{}"!!'.format(name,cd['email'],post.title)
-            msg = 'Read Post At:\n {} \n\n{}\'s Comments:\n{}'.format(request.build_absolute_uri(post.get_absolute_url()),name, cd['comments'])
+            subject = '{} ({}) recommends you to read about "{}"!!'.format(name, cd['email'], post.title)
+            msg = 'Read Post At:\n {} \n\n{}\'s Comments:\n{}'.format(
+                request.build_absolute_uri(post.get_absolute_url()), name, cd['comments'])
 
-            #Send Email
+            # Send Email
             send_mail(subject, msg, 'donotReply@gmail.com', [toEmail])
 
             form = EmailSendRequest()
@@ -73,4 +92,3 @@ def sendMail(request, id):
 
     response = render(request, redirecturl, ctx)
     return response
-

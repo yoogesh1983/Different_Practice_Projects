@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'YMSBlog',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ PASSWORD_HASHERS = [
 EMAIL_HOST = 'smtp.gmail.com'
 # default value is 25
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'username'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_USER = 'Your smtp sever username goes here'
+EMAIL_HOST_PASSWORD = 'Your smtp password goes here'
 # Is secure email is required?
 EMAIL_USE_TLS = True
