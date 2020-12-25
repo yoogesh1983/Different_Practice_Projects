@@ -25,7 +25,7 @@ def getLatestPosts(count=3):
 
 #assignment_tag perform some procesing and assign result to the variable in the context so that we can use that veriable anywhere
 #However it is deprecated since simple tag is enough to do it from django 1.9 onwards
-#@register.assignment_tag()
+#@register.assignment_tag
 @register.simple_tag
 def getMostCommentedPosts(count=3):
     return Post.objects.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]

@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 from taggit.models import Tag
@@ -15,13 +15,15 @@ from .forms import EmailSendRequest, CommentRequest
 
 
 def getAllPost(request, tag_slug=None):
+    user = request.user
+    print('User is:', user)
     blogs = Post.objects.all()
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         blogs = blogs.filter(tags__in=[tag])
 
-    paginator = Paginator(blogs, 4)  # how many results in one page you want to display?
+    paginator = Paginator(blogs, 3)  # how many results in one page you want to display?
     pageNumber = request.GET.get('page')
     try:
         blogs = paginator.page(pageNumber)
@@ -97,3 +99,8 @@ def sendMail(request, id):
 
     response = render(request, redirecturl, ctx)
     return response
+
+
+def middlewareTesting(request):
+    print('view is called...')
+    return HttpResponse('<h1>Custom Middleware Demo!!</h1>')
