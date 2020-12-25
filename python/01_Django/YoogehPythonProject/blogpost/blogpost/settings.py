@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'YMSBlog',
-    'taggit',
+    'taggit', # This is used for Tagging
 ]
 
 MIDDLEWARE = [
