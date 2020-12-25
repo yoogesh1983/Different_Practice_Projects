@@ -1,15 +1,9 @@
-import datetime
-
-from django.contrib.auth.decorators import login_required
+from YMSBlog.models import Post
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from taggit.models import Tag
-
-from . import forms
-from YMSBlog.models import Post
 
 from .forms import EmailSendRequest, CommentRequest
 
@@ -99,8 +93,3 @@ def sendMail(request, id):
 
     response = render(request, redirecturl, ctx)
     return response
-
-
-def middlewareTesting(request):
-    print('view is called...')
-    return HttpResponse('<h1>Custom Middleware Demo!!</h1>')
