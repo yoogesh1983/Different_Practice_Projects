@@ -1,10 +1,27 @@
 <!DOCTYPE html>   <!-- must provide this DOCTYPE in a child html -->
 {% extends 'blog/common/base.html'%}
 {% load static %}
+{% load customTag %}
 {% block body_part %}
 <!--You code starts here -->
-<!-- This is a ginga2 template language -->
 
+<!-- This is a ginga2 template language -->
+  <span class="right_side_view">
+      <span>Total number of published post upto today: <span style="font-weight:bold;">{% ymsTotalPostCount %}</span></span>
+      <p>
+          <span><strong>Lastest Posts:</strong></span>
+          {% getLatestPosts 2%}
+      </p>
+      <p>
+          <span><strong>Most Commented Posts:</strong></span>
+          {% getMostCommentedPosts 2 as mostCommentedPosts%}
+            <ul>
+                {% for next in mostCommentedPosts %}
+                <li>{{next.title}}</li>
+                {% endfor %}
+            </ul>
+      </p>
+  </span>
 {% if tag %}
 <h1>Posts tagged with <strong>{{tag.name}}</strong></h1>
 {%else%}
@@ -51,7 +68,7 @@
 <p>No Posts found</p>
 {% endif %}
 
-
+<br><br>
 <!-- You code ends here -->
 {% endblock %}
 

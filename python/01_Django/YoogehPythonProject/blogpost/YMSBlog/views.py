@@ -21,7 +21,7 @@ def getAllPost(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         blogs = blogs.filter(tags__in=[tag])
 
-    paginator = Paginator(blogs, 2)  # how many results in one page you want to display?
+    paginator = Paginator(blogs, 4)  # how many results in one page you want to display?
     pageNumber = request.GET.get('page')
     try:
         blogs = paginator.page(pageNumber)
