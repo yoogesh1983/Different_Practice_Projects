@@ -8,16 +8,24 @@
 </head>
 <body>
     <div style="height:20px; border: solid blue 2px; background-color: green;">
-        {% if userAuthenticated %}
-            <span style="float: left;">
-                <a href="/blog/adduser" style="color:white; margin-right: 20px;">AddUser</a>
-                <a href="/blog/addpost" style="color:white; margin-right: 20px;">AddPost</a>
-            </span>
-        {% endif %}
+        <span style="float: left;">
+            <a href="/blog/home" style="text-decoration: none; margin-left:5px;">
+                <strong style="color: white; text-decoration: none;">HOME</strong>
+            </a>
+        </span>
+
         <span style="float: right;">
-            <a href="/blog/home" style="color:white; margin-right: 20px;">Home</a>
-            <a href="/accounts/login" style="color:white; margin-right: 20px;">Login</a>
-            <a href="/accounts/logout" style="color:white;">Logout</a>
+            {% if not userAuthenticated %}
+            <a href="/accounts/login" style="text-decoration: none; margin-right:10px;">
+                <strong style="color: white; text-decoration: none;">Login</strong>
+            </a>
+            {% endif %}
+
+            {% if userAuthenticated %}
+            <a href="/accounts/logout" style="text-decoration: none; margin-right:10px;">
+                <strong style="color: white; text-decoration: none;">Logout</strong>
+            </a>
+            {% endif %}
         </span>
     </div>
 
