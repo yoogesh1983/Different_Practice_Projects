@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('blog/', include('YMSBlog.urls')),
-    path('', views.defaultView),
+    path('', views.getAllPost),
 ]
