@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div style="height:20px; border: solid blue 2px; background-color: green;">
+        <span style="float: left;">
+            <a href="/blog/home" style="text-decoration: none; margin-left:5px;">
+                <strong style="color: white; text-decoration: none;">HOME</strong>
+            </a>
+        </span>
+
+        <span style="float: right;">
+            {% if not userAuthenticated %}
+            <a href="/accounts/login" style="text-decoration: none; margin-right:10px;">
+                <strong style="color: white; text-decoration: none;">Login</strong>
+            </a>
+            {% endif %}
+
+            {% if userAuthenticated %}
+            <a href="/accounts/logout" style="text-decoration: none; margin-right:10px;">
+                <strong style="color: white; text-decoration: none;">Logout</strong>
+            </a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% block body_part %}
+    {% endblock %}
+
+    <div style="height:20px; border: solid blue 2px; background-color: green; margin-top: 20px;">This is Footer</div>
+</body>
+</html>
+
+
