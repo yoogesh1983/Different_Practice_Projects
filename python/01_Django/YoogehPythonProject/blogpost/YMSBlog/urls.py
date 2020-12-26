@@ -5,6 +5,8 @@ from YMSBlog import views
 urlpatterns = [
     path('home/', views.getAllPost),
     #path('home/', views.getAllPost_ClassBasedView.as_view()),
+    path('adduser/', views.addUser),
+    path('addpost/', views.addPost),
 
     re_path('(?P<id>\d+)/share/$', views.sendMail),
     re_path('tag/(?P<tag_slug>[-\w]+)/$', views.getAllPost, name='allPostsByTagName'),

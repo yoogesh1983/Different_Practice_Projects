@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'YMSBlog.middleware.CatchGlobalException'
+    'YMSBlog.middleware.BlogpostMiddleware'
 ]
 
 ROOT_URLCONF = 'blogpost.urls'
@@ -122,8 +122,8 @@ STATICFILES_DIRS = [
 ]
 
 # This will tell where to redirect after the successful login and logout
-LOGIN_REDIRECT_URL = '/YMSBlog/home/'
-LOGOUT_REDIRECT_URL = '/YMSBlog/home/'
+LOGIN_REDIRECT_URL = '/blog/home/'
+LOGOUT_REDIRECT_URL = '/blog/home/'
 
 # It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then
 # on and on and one after wards... but make sure to install this using pip install command
