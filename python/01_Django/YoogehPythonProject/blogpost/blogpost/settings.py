@@ -122,8 +122,8 @@ STATICFILES_DIRS = [
 ]
 
 # This will tell where to redirect after the successful login and logout
-LOGIN_REDIRECT_URL = '/blog/home/'
-LOGOUT_REDIRECT_URL = '/blog/home/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # It will look for the hashing alrogithm from top to bottom. if first is unvailable, then it goes for second then
 # on and on and one after wards... but make sure to install this using pip install command

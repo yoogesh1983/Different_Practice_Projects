@@ -114,6 +114,6 @@ def addPost(request):
             post.author = request.user
             post.slug = post.title.lower()
             post.save()
-            return HttpResponseRedirect('/blog/home')
+            return HttpResponseRedirect('/')
     ctx = {'form': form}
     return TemplateResponse(request, redirecturl, ctx)

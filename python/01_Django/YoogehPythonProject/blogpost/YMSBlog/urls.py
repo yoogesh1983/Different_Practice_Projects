@@ -3,7 +3,6 @@ from django.urls import path, re_path
 from YMSBlog import views
 
 urlpatterns = [
-    path('home/', views.getAllPost),
     #path('home/', views.getAllPost_ClassBasedView.as_view()),
     path('adduser/', views.addUser),
     path('addpost/', views.addPost),
