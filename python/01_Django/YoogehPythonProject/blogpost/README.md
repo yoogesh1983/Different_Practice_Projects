@@ -31,7 +31,9 @@ By the way, in the case of windows, you need below:
 
 > activate.bat
 
-The **_myvirtualenv_** is now set for your current project.
+The **_myvirtualenv_** is now set for your current project at:
+ 
+ > /home/yoogesh2002/.virtualenvs/myvirtualenv
 
 You need to configure below static path while deploying application to cloud:
 
