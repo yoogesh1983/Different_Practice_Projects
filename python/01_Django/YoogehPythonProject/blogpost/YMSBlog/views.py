@@ -11,6 +11,10 @@ from taggit.models import Tag
 from .forms import EmailSendRequest, CommentRequest, AddUserRequest, AddPostRequest
 
 
+def defaultView(request):
+    return HttpResponseRedirect('/blog/home')
+
+
 def getAllPost(request, tag_slug=None):
     user = request.user
     blogs = Post.objects.all()
