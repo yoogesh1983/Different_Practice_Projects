@@ -32,3 +32,9 @@ By the way, in the case of windows, you need below:
 > activate.bat
 
 The **_myvirtualenv_** is now set for your current project.
+
+You need to configure below static path while deploying application to cloud:
+
+> /home/yoogesh2002/.virtualenvs/myvirtualenv/lib/python3.8/site-packages/django/contrib/admin/static/admin &nbsp;&nbsp;[for _/static/admin_]
+>
+> /home/yoogesh2002/Different_Practice_Projects/python/01_Django/YoogehPythonProject/blogpost/static &nbsp;&nbsp; [For _/static_]
