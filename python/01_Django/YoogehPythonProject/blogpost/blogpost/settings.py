@@ -26,7 +26,7 @@ SECRET_KEY = '&39$)8bk4@b!)vp2l)s0t-+aj%&pkhvmq2m)u^ugg__slnekc9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://yoogesh2002.pythonanywhere.com',]
 
 # Application definition
 
