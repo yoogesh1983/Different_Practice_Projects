@@ -1,4 +1,4 @@
-from YMSBlog.models import Post
+from twmblog.models import Post
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -112,7 +112,7 @@ def addPost(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.slug = post.title.lower()
+            post.slug = post.title.replace(" ", "").lower()
             post.save()
             return HttpResponseRedirect('/')
     ctx = {'form': form}

@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from YMSBlog import views
+from twmblog import views
+from twmwebservice import views as blogwebservices
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('blog/', include('YMSBlog.urls')),
+    path('blog/', include('twmblog.urls')),
+    path('blogservice/', include('twmwebservice.urls')),
     path('', views.getAllPost),
 ]

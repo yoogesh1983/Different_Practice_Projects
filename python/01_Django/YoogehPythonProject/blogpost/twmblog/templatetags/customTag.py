@@ -1,5 +1,5 @@
 from django import template
-from YMSBlog.models import Post
+from twmblog.models import Post
 from django.db.models import Count
 
 register = template.Library()

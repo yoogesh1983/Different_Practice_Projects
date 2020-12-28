@@ -1,5 +1,5 @@
 from django.contrib import admin
-from YMSBlog.models import Post, Comment
+from twmblog.models import Post, Comment
 
 
 class PostAdmin(admin.ModelAdmin):
