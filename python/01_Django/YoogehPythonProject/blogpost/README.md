@@ -4,6 +4,8 @@
 
 > pip install django-taggit
 
+> pip install requests
+
 The Application can now be browsed at http://127.0.0.1:8000
 
 Similarly, the Admin view can be browsed at http://127.0.0.1:8000/admin/

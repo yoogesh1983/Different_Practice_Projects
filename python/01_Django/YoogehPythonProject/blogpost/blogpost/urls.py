@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('blog/', include('twmblog.urls')),
-    path('blogservice/', include('twmwebservice.urls')),
+    path('api/', include('twmwebservice.urls')),
     path('', views.getAllPost),
 ]
