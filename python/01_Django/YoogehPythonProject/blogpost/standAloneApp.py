@@ -34,7 +34,26 @@ def insert_post():
     print(resp.status_code)
     print(resp.json())
 
+def update_post(id):
+    post = {
+        'title': 'Nepal',
+        'body': 'updated:::::::::Nepal means United states America.',
+        'status': 'published',
+        'tags': 'django'
+    }
+    json_data = json.dumps(post)
+    resp = requests.put(BASE_URL + ENDPOINT + '/' + str(id) + '/', data=json_data)
+    print(resp.status_code)
+    print(resp.json())
+
+def delete_post(id):
+    resp = requests.delete(BASE_URL + ENDPOINT + '/' + str(id))
+    print(resp.status_code)
+    print(resp.json())
+
 
 #get_post(4)
 #get_posts()
-insert_post()
+#insert_post()
+#update_post(14)
+delete_post(18)

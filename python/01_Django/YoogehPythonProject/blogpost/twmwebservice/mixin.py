@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from twmblog.models import Post
 
 """
  What is Mixin?
@@ -26,3 +27,10 @@ class HttpResponseMixin(object):
         for obj in dict_data:
             list_data.append(obj['fields'])
         return json.dumps(list_data)
+
+    def get_post_with_id(self, id):
+        try:
+            post = Post.objects.get(id=id)
+        except Post.DoesNotExist:
+            post = None
+        return post
