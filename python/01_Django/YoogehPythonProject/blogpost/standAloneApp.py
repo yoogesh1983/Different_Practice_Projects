@@ -27,6 +27,7 @@ def insert_post():
         'slug': 'usa',
         'body': 'USA means United states America.',
         'status': 'published',
+        'tags': 'USA,Nepal,India'
     }
     json_data = json.dumps(post)
     resp = requests.post(BASE_URL + ENDPOINT + '/', data=json_data)
