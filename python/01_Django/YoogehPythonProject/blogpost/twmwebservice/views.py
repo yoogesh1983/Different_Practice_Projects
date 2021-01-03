@@ -13,7 +13,8 @@ from twmwebservice.mixin import HttpResponseMixin
 
 
 ##################################################################################
-#This is just for the example Shake
+#By using Function Based View
+##################################################################################
 def get_post_by_using_function_based_view(request):
     # This is dictionary
     dict_data = {'title': 'This is title', 'body' : 'This is body',}
@@ -24,8 +25,12 @@ def get_post_by_using_function_based_view(request):
 
     #Or you can use this method which does above tasks by this single line
     return JsonResponse(dict_data)
-####################################################################################
 
+
+
+########################################################################################
+#Without using Django provided Rest Framework [Our own framework i.e. Durga Framework]
+########################################################################################
 @method_decorator(csrf_exempt, name='dispatch')
 class PostDetailCBV(HttpResponseMixin, View):
     # @Override
@@ -127,3 +132,8 @@ class PostListCBV(HttpResponseMixin, View):
         if form.errors:
             json_data = json.dumps(form.errors)
             return self.render_to_http_response(json_data, 400)
+
+
+########################################################################################
+#Using Django RestFramework
+########################################################################################
