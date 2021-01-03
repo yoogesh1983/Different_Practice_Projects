@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit', # This is used for Tagging
+    'rest_framework' # This is used for DRF
     'twmblog',
     'twmwebservice',
 ]

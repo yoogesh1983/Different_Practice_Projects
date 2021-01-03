@@ -24,4 +24,7 @@ urlpatterns = [
     path('blog/', include('twmblog.urls')),
     path('api/', include('twmwebservice.urls')),
     path('', views.getAllPost),
+
+    #This is for DRF
+    path('api-auth/', include('rest_framework.urls'))
 ]

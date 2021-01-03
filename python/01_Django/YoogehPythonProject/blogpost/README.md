@@ -6,6 +6,14 @@
 
 > pip install requests
 
+To install the Django Rest API, install following:
+
+> pip install djangorestframework
+>
+> pip install markdown      
+> 
+> pip install django-filter
+
 The Application can now be browsed at http://127.0.0.1:8000
 
 Similarly, the Admin view can be browsed at http://127.0.0.1:8000/admin/
