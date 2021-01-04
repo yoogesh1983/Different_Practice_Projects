@@ -4,6 +4,7 @@ import requests
 
 BASE_URL = 'http://127.0.0.1:8000/api/'
 ENDPOINT = 'cbv/post'
+ENDPOINT_DRF = 'drf/post'
 
 
 def get_post(id):
@@ -14,10 +15,21 @@ def get_post(id):
     else:
         print("ID {} could not found!!".format(id))
 
+def get_post_drf(id):
+    response = requests.get(BASE_URL + ENDPOINT_DRF + '/' + str(id))
+    if (response.status_code == requests.codes.ok):
+        print(response.json());
+    else:
+        print("ID {} could not found!!".format(id))
 
 def get_posts():
     response = requests.get(BASE_URL + ENDPOINT)
     # This json() method internally convert json object into python dictionary by calling load() method
+    print(response.status_code);
+    print(response.json());
+
+def get_posts_drf():
+    response = requests.get(BASE_URL + ENDPOINT_DRF)
     print(response.status_code);
     print(response.json());
 
@@ -56,4 +68,7 @@ def delete_post(id):
 #get_posts()
 #insert_post()
 #update_post(14)
-delete_post(18)
+#delete_post(18)
+
+get_post_drf(4)
+#get_posts_drf()
