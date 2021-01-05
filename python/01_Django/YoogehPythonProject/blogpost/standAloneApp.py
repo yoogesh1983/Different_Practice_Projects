@@ -15,21 +15,9 @@ def get_post(id):
     else:
         print("ID {} could not found!!".format(id))
 
-def get_post_drf(id):
-    response = requests.get(BASE_URL + ENDPOINT_DRF + '/' + str(id))
-    if (response.status_code == requests.codes.ok):
-        print(response.json());
-    else:
-        print("ID {} could not found!!".format(id))
-
 def get_posts():
     response = requests.get(BASE_URL + ENDPOINT)
     # This json() method internally convert json object into python dictionary by calling load() method
-    print(response.status_code);
-    print(response.json());
-
-def get_posts_drf():
-    response = requests.get(BASE_URL + ENDPOINT_DRF)
     print(response.status_code);
     print(response.json());
 
@@ -70,5 +58,33 @@ def delete_post(id):
 #update_post(14)
 #delete_post(18)
 
-get_post_drf(4)
+
+
+def get_post_drf(id):
+    response = requests.get(BASE_URL + ENDPOINT_DRF + '/' + str(id))
+    if (response.status_code == requests.codes.ok):
+        print(response.json());
+    else:
+        print("ID {} could not found!!".format(id))
+
+def get_posts_drf():
+    response = requests.get(BASE_URL + ENDPOINT_DRF)
+    print(response.status_code);
+    print(response.json());
+
+def insert_post_drf():
+    post = {
+        'title': 'statefarm',
+        'slug': 'usa',
+        'body': 'USA means United states America.',
+        'status': 'published',
+        'tags': 'USA,Nepal,India'
+    }
+    json_data = json.dumps(post)
+    resp = requests.post(BASE_URL + ENDPOINT_DRF + '/', data=json_data)
+    print(resp.status_code)
+    print(resp.json())
+
+#get_post_drf(4)
 #get_posts_drf()
+insert_post_drf()
