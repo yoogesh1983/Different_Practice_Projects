@@ -52,39 +52,9 @@ def delete_post(id):
     print(resp.json())
 
 
-#get_post(4)
+get_post(4)
 #get_posts()
 #insert_post()
 #update_post(14)
 #delete_post(18)
 
-
-
-def get_post_drf(id):
-    response = requests.get(BASE_URL + ENDPOINT_DRF + '/' + str(id))
-    if (response.status_code == requests.codes.ok):
-        print(response.json());
-    else:
-        print("ID {} could not found!!".format(id))
-
-def get_posts_drf():
-    response = requests.get(BASE_URL + ENDPOINT_DRF)
-    print(response.status_code);
-    print(response.json());
-
-def insert_post_drf():
-    post = {
-        'title': 'statefarm',
-        'slug': 'usa',
-        'body': 'USA means United states America.',
-        'status': 'published',
-        'tags': 'USA,Nepal,India'
-    }
-    json_data = json.dumps(post)
-    resp = requests.post(BASE_URL + ENDPOINT_DRF + '/', data=json_data)
-    print(resp.status_code)
-    print(resp.json())
-
-#get_post_drf(4)
-#get_posts_drf()
-insert_post_drf()

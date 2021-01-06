@@ -1,4 +1,3 @@
-import io
 import json
 
 from django.contrib.auth.models import User
@@ -7,13 +6,14 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
+from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from twmblog.forms import AddPostRequest
 from twmblog.models import Post
+from twmwebservice.serializer import PostSerializer
 from twmwebservice import twmUtil
 from twmwebservice.mixin import HttpResponseMixin
-from twmwebservice.serializer import PostSerializer
 
 
 ##################################################################################
@@ -136,117 +136,41 @@ class PostListCBV(HttpResponseMixin, View):
             json_data = json.dumps(form.errors)
             return self.render_to_http_response(json_data, 400)
 
-
 ########################################################################################
-# Using Django RestFramework
+# Using Django framework API-View
 ########################################################################################
-@method_decorator(csrf_exempt, name='dispatch')
-class PostDetailDRF(HttpResponseMixin, View):
-    # @Override
-    def get(self, request, id, *args, **kwargs):
-        try:
-            post = Post.objects.get(id=id)
-            eserializer = PostSerializer(post)
-        except Post.DoesNotExist:
-            json_data = json.dumps({'msg': 'The requested resource is not available'})
-            return self.render_to_http_response(json_data, 400)
-        else:
-            json_data = json.dumps(eserializer.data)
-            return self.render_to_http_response(json_data)
+class PostListAPIView(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        queryset = Post.objects.all()
+        pk = self.request.GET.get('id')  # when you pass /?id=4
+        if pk is not None:
+            queryset = queryset.filter(id__iexact=pk)
+        serializer = PostSerializer(queryset, many=True)
+        dict_data = serializer.data
+        #The Response method internally convert the Python_dictionary data into Json and return the Json response to the end user
+        return Response(dict_data)
 
-    # @Override
-    def put(self, request, id, *args, **kwargs):
-        try:
-            post = Post.objects.get(id=id)
-        except Post.DoesNotExist:
-            json_data = json.dumps({'msg': 'The requested id could not be found!!'})
-            return self.render_to_http_response(json_data, 404)
-        else:
-            json_data = request.body
-            valid_json = twmUtil.is_valid_json(json_data)
-            if not valid_json:
-                json_data = json.dumps({'msg': 'Invalid Json Format!'})
-                return self.render_to_http_response(json_data, 400)
-            dict_data = json.loads(json_data)
-            dict_post_data = json.loads(serialize('json', [post, ]))[0]
-            dict_post_data.update(dict_data)
-            print(dict_post_data)
+class PostListAPIView_ShortCutWay(ListAPIView):
+    #queryset = Post.objects.all()    # queryset is defined and cannot be other that it. require here if we don't override get_queryset() method
+    serializer_class = PostSerializer # serializer_class is defined and cannot be other
 
-            form = AddPostRequest(dict_post_data, instance=post)
-            if form.is_valid():
-                try:
-                    post = form.save(commit=True)
-                except Exception as msg:
-                    json_data = json.dumps({'msg': '{}'.format(msg)})
-                    return self.render_to_http_response(json_data, 500)
-                else:
-                    json_data = json.dumps({'msg': 'Successfully updated the data!'})
-                    return self.render_to_http_response(json_data)
-            if form.errors:
-                json_data = json.dumps(form.errors)
-                return self.render_to_http_response(json_data, 400)
+    #If you want the customized list as a response then you need to override this.
+    #It is used especially to implement search operation
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        pk = self.request.GET.get('id')
+        if pk is not None:
+            queryset = queryset.filter(id__iexact=pk)
+        return queryset
 
-    # @Override
-    def delete(self, request, id, *args, **kwargs):
-        try:
-            post = Post.objects.get(id=id)
-        except Post.DoesNotExist:
-            json_data = json.dumps({'msg': 'The requested id could not be found. Could not delete the item!!'})
-            return self.render_to_http_response(json_data, 404)
-        else:
-            status, deleted_item = post.delete()
-            if status == 1:
-                json_data = json.dumps({'msg': 'Successfully deleted the data! {}'.format(deleted_item)})
-                return self.render_to_http_response(json_data, 500)
-            else:
-                json_data = json.dumps({'msg': 'Unable to delete. please try again!'})
-                return self.render_to_http_response(json_data)
+class PostCreateAPIView_ShortCutWay(CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class PostListDRF(HttpResponseMixin, View):
-    # @Override
-    def get(self, request, *args, **kwargs):
-        try:
-            posts = Post.objects.all()
-            eserializer = PostSerializer(posts, many=True)
-            print(eserializer.data)
-            json_data = JSONRenderer().render(eserializer.data)
-        except Post.DoesNotExist:
-            json_data = json.dumps({'msg': 'The requested resource is not available'})
-            return self.render_to_http_response(json_data, 400)
-        else:
-            return self.render_to_http_response(json_data)
 
-    # @Override
-    def post(self, request, *args, **kwargs):
-        json_data = request.body
-        valid_json = twmUtil.is_valid_json(json_data)
-        print('========0000=======1222')
-        if not valid_json:
-            print('===============11')
-            json_data = JSONRenderer.render({'msg': 'Invalid Json Format'})
-            return self.render_to_http_response(json_data, 400)
-        stream = io.BytesIO(json_data)
-        dict_data = JSONParser().parse(stream)
-        dict_data['author'] = '1'
-        dict_data['slug'] = dict_data.get('title').replace(" ", "").lower()
-        print(dict_data)
-        serializer = PostSerializer(data=dict_data)
-        if serializer.is_valid():
-            try:
-                post = serializer.save()
-            except Exception as msg:
-                print(msg)
-                json_data = JSONRenderer.render({'msg': '{}'.format(msg)})
-                return self.render_to_http_response(json_data, 500)
-            else:
-                print('===============1244422')
-                json_data = json.dumps({'msg': 'Successfully saved the data!'})
-                print(',,,,,,,,,,,,,,,,,,,')
-                print(json_data)
-                return self.render_to_http_response(json_data)
-        if serializer.errors:
-            print(serializer.errors)
-            json_data = JSONRenderer.render(serializer.errors)
-            return self.render_to_http_response(json_data, 400)
+
+
+
+
+

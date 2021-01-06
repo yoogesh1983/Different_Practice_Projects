@@ -12,5 +12,7 @@ class BlogpostMiddleware(object):
         return HttpResponse(result.format(exception.__class__.__name__, exception))
 
     def process_template_response(self, request, response):
-        response.context_data["userAuthenticated"]= request.user.is_authenticated
+        url = request.get_full_path()
+        if('/drf' not in url):
+            response.context_data["userAuthenticated"]= request.user.is_authenticated
         return response

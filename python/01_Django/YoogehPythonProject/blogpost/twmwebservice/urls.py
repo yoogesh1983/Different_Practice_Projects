@@ -10,7 +10,6 @@ urlpatterns = [
     path('cbv/post/', views.PostListCBV.as_view()),
     re_path('cbv/post/(?P<id>\d+)/$', views.PostDetailCBV.as_view()),
 
-    # DRF (Django Rest Framework)
-    path('drf/post/', views.PostListDRF.as_view()),
-    re_path('drf/post/(?P<id>\d+)/$', views.PostDetailDRF.as_view()),
+    path('drf/', views.PostCreateAPIView_ShortCutWay.as_view()),
+
     ]
