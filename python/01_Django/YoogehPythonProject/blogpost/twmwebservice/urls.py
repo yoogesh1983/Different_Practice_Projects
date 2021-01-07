@@ -1,6 +1,11 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
+from rest_framework import routers
 
-from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin
+from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset
+
+router = routers.DefaultRouter()
+router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet) #Since PostCrudViewUsingViewSet extends ModelViewSet, the base_name is optional
+#router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet, base_name='ymsViewSet')
 
 urlpatterns = [
 
@@ -11,7 +16,7 @@ urlpatterns = [
     path('cbv/post/', cbv.PostListCBV.as_view()),
     re_path('cbv/post/(?P<id>\d+)/$', cbv.PostDetailCBV.as_view()),
 
-    # Api [API Views
+    # Api [API Views]
     #########################
 
         #Api view (Custom)
@@ -34,6 +39,8 @@ urlpatterns = [
         path('drf/mixin/multiple/', mixin.PostListAndCreateViewMixin.as_view()),
         re_path('drf/mixin/multiple/(?P<pk>\d+)/$', mixin.PostRetrieveUpdateAndDestroyModelMixin.as_view()),
 
-
+    # Api [ViewSet]
+    #########################
+    path('yms/', include(router.urls)),
 
     ]

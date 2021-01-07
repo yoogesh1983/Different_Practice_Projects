@@ -13,6 +13,6 @@ class BlogpostMiddleware(object):
 
     def process_template_response(self, request, response):
         url = request.get_full_path()
-        if('/drf' not in url):
+        if('/api' not in url):
             response.context_data["userAuthenticated"]= request.user.is_authenticated
         return response
