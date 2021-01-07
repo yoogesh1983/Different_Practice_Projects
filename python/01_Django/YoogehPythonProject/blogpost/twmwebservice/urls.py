@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv
+from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin
 
 urlpatterns = [
 
@@ -28,6 +28,11 @@ urlpatterns = [
         #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndUpdateAPIView_ShortCutWay.as_view()),
         #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndDestroyAPIView_ShortCutWay.as_view()),
         re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveUpdateAndDestroyAPIView_ShortCutWay.as_view()),
+
+        # Using Mixin
+        path('drf/mixin/single/', mixin.PostListViewMixin.as_view()),
+        path('drf/mixin/multiple/', mixin.PostListAndCreateViewMixin.as_view()),
+        re_path('drf/mixin/multiple/(?P<pk>\d+)/$', mixin.PostRetrieveUpdateAndDestroyModelMixin.as_view()),
 
 
 
