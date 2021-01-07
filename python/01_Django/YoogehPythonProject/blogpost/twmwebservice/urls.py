@@ -1,23 +1,34 @@
 from django.urls import path, re_path
 
-from twmwebservice.views import api_views as api, fbv_views as fbv, custom_views as custom
+from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv
 
 urlpatterns = [
-    #Function based view
+
+    # fbv_views [Function Based Views]
     path('fbv/post/', fbv.get_post_by_using_function_based_view),
 
-    # Class based view
-    path('cbv/post/', custom.PostListCBV.as_view()),
-    re_path('cbv/post/(?P<id>\d+)/$', custom.PostDetailCBV.as_view()),
+    # Custom ClassBased views [Durga Rest Framework]
+    path('cbv/post/', cbv.PostListCBV.as_view()),
+    re_path('cbv/post/(?P<id>\d+)/$', cbv.PostDetailCBV.as_view()),
 
-     #path('drf/', api.PostCreateAPIView_ShortCutWay.as_view()),
-    # re_path('drf/(?P<id>\d+)/$', api.PostRetrieveAPIView_ShortCutWay.as_view()),
-    # re_path('drf/(?P<id>\d+)/$', api.PostUpdateAPIView_ShortCutWay.as_view()),
-    # re_path('drf/(?P<id>\d+)/$', api.PostDestroyAPIView_ShortCutWay.as_view()),
+    # Api [API Views
+    #########################
 
-     path('drf/', api.PostListAndCreateAPIView_ShortCutWay.as_view()),
-     # re_path('drf/(?P<id>\d+)/$', api.PostRetrieveAndUpdateAPIView_ShortCutWay.as_view()),
-     #re_path('drf/(?P<id>\d+)/$', api.PostRetrieveAndDestroyAPIView_ShortCutWay.as_view()),
-    #re_path('drf/(?P<id>\d+)/$', api.PostRetrieveUpdateAndDestroyAPIView_ShortCutWay.as_view()),
+        #Api view (Custom)
+        path('drf/custom/', api.PostListAPIView.as_view()),
+
+        #Api view (out of the box) Single
+        path('drf/single/', api.PostCreateAPIView_ShortCutWay.as_view()),
+        re_path('drf/single/(?P<id>\d+)/$', api.PostRetrieveAPIView_ShortCutWay.as_view()),
+        re_path('drf/single/(?P<id>\d+)/$', api.PostUpdateAPIView_ShortCutWay.as_view()),
+        re_path('drf/single/(?P<id>\d+)/$', api.PostDestroyAPIView_ShortCutWay.as_view()),
+
+        # Api view (out of the box) Combined
+        path('drf/multiple/', api.PostListAndCreateAPIView_ShortCutWay.as_view()),
+        #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndUpdateAPIView_ShortCutWay.as_view()),
+        #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndDestroyAPIView_ShortCutWay.as_view()),
+        re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveUpdateAndDestroyAPIView_ShortCutWay.as_view()),
+
+
 
     ]
