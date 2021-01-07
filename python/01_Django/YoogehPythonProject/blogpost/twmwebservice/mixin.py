@@ -1,6 +1,8 @@
+import datetime
 import json
 
 from django.http import HttpResponse
+from django.utils import timezone
 from twmblog.models import Post
 
 """
@@ -34,3 +36,10 @@ class HttpResponseMixin(object):
         except Post.DoesNotExist:
             post = None
         return post
+
+    def generateRequireFields(self, dict_data):
+        dict_data['slug'] = dict_data['title'].replace(" ", "").lower()
+        dict_data['publish'] = datetime.datetime.now()
+        dict_data['created'] = timezone.now
+        dict_data['updated'] = timezone.now
+        dict_data['author'] = 1

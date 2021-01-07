@@ -1,7 +1,7 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
 
-from twmwebservice.views import api_views as api, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset
+from twmwebservice.views import api_views_ootb as apiootb, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset, api_views_core as apicore
 
 router = routers.DefaultRouter()
 router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet) #Since PostCrudViewUsingViewSet extends ModelViewSet, the base_name is optional
@@ -19,20 +19,21 @@ urlpatterns = [
     # Api [API Views]
     #########################
 
-        #Api view (Custom)
-        path('drf/custom/', api.PostListAPIView.as_view()),
+        #Api view (core)
+        path('drf/apiviews/core/', apicore.PostListAPIViewFor_Get_GetAll_and_Post.as_view()),
+        re_path('drf/apiviews/core/(?P<id>\d+)/$', apicore.PostListAPIViewFor_Get_Put_Patch_and_Delete.as_view()),
 
         #Api view (out of the box) Single
-        path('drf/single/', api.PostCreateAPIView_ShortCutWay.as_view()),
-        re_path('drf/single/(?P<id>\d+)/$', api.PostRetrieveAPIView_ShortCutWay.as_view()),
-        re_path('drf/single/(?P<id>\d+)/$', api.PostUpdateAPIView_ShortCutWay.as_view()),
-        re_path('drf/single/(?P<id>\d+)/$', api.PostDestroyAPIView_ShortCutWay.as_view()),
+        re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostRetrieveAPIView_ShortCutWay.as_view()),
+        path('drf/apiviews/ootb/single/', apiootb.PostCreateAPIView_ShortCutWay.as_view()),
+        re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostUpdateAPIView_ShortCutWay.as_view()),
+        re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostDestroyAPIView_ShortCutWay.as_view()),
 
         # Api view (out of the box) Combined
-        path('drf/multiple/', api.PostListAndCreateAPIView_ShortCutWay.as_view()),
+        path('drf/multiple/', apiootb.PostListAndCreateAPIView_ShortCutWay.as_view()),
         #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndUpdateAPIView_ShortCutWay.as_view()),
         #re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveAndDestroyAPIView_ShortCutWay.as_view()),
-        re_path('drf/multiple/(?P<id>\d+)/$', api.PostRetrieveUpdateAndDestroyAPIView_ShortCutWay.as_view()),
+        re_path('drf/multiple/(?P<id>\d+)/$', apiootb.PostRetrieveUpdateAndDestroyAPIView_ShortCutWay.as_view()),
 
         # Using Mixin
         path('drf/mixin/single/', mixin.PostListViewMixin.as_view()),
