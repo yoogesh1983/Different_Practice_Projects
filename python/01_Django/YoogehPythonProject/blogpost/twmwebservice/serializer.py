@@ -7,9 +7,8 @@ from twmblog.models import Post
 class PostSerializer(serializers.ModelSerializer):
 
     def title_should_not_be_state_farm(value):
-        print('This is called..........')
-        if value == 'statefarm':
-            raise serializers.ValidationError('Title Should not be state-farm')
+        if value == 'yms':
+            raise serializers.ValidationError('Title Should not be yms')
         return value
 
     title = serializers.CharField(validators=[title_should_not_be_state_farm])
