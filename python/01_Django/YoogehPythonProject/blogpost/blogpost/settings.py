@@ -160,3 +160,8 @@ EMAIL_USE_TLS = True
 #     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
 #     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
 # }
+
+# This will allow jwt refresh token call. By default it is false
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+}

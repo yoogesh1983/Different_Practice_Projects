@@ -1,6 +1,7 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
 from rest_framework.authtoken import views as token
+from rest_framework_jwt import views as jwt
 from twmwebservice.views import api_views_ootb as apiootb, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset, api_views_core as apicore
 
 router = routers.DefaultRouter()
@@ -8,6 +9,13 @@ router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet) #Since PostCrudV
 #router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet, base_name='ymsViewSet')
 
 urlpatterns = [
+
+   # For JWT token
+    path('jwt-access-token/', jwt.obtain_jwt_token, name='get-access-token'),
+    path('jwt-refresh-token/', jwt.refresh_jwt_token, name='get-refresh-token'),
+    path('jwt-validate-token/', jwt.verify_jwt_token, name='verify-token'),
+
+
 
     # For DRF Authtoken
     path('token/', token.obtain_auth_token, name='get-my-token'),

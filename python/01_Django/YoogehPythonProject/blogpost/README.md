@@ -14,6 +14,10 @@ To install the Django Rest API, install following:
 > 
 > pip install django-filter
 
+To install JWT Token Feature, install following:
+
+> pip install djangorestframework-jwt
+
 The Application can now be browsed at http://127.0.0.1:8000
 
 Similarly, the Admin view can be browsed at http://127.0.0.1:8000/admin/
