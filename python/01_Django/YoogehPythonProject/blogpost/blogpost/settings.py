@@ -26,7 +26,7 @@ SECRET_KEY = '&39$)8bk4@b!)vp2l)s0t-+aj%&pkhvmq2m)u^ugg__slnekc9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['yoogesh2002.pythonanywhere.com','127.0.0.1']
+ALLOWED_HOSTS = ['yoogesh2002.pythonanywhere.com', '127.0.0.1']
 
 # Application definition
 
@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taggit', # This is used for Tagging
-    'rest_framework', # This is used for DRF
+    'taggit',  # This is used for Tagging
+    'rest_framework',  # This is used for DRF
+    'rest_framework.authtoken',  # This is for tokenization for DRF
     'twmblog',
     'twmwebservice',
 ]
@@ -145,7 +146,7 @@ PASSWORD_HASHERS = [
 ########################
 # using gmail provided smtp server just like a mailGun which is third party. Default value is localhost.
 # please enable below (which is off bydefault) so that it can access gmail
-#https://www.google.com/settings/security/lesssecureapps
+# https://www.google.com/settings/security/lesssecureapps
 EMAIL_HOST = 'smtp.gmail.com'
 # default value is 25
 EMAIL_PORT = 587
@@ -153,3 +154,9 @@ EMAIL_HOST_USER = 'Your smtp sever username goes here'
 EMAIL_HOST_PASSWORD = 'Your smtp password goes here'
 # Is secure email is required?
 EMAIL_USE_TLS = True
+
+# Enable DRF authentication and authorization globally for twmwebservice Application
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
+# }

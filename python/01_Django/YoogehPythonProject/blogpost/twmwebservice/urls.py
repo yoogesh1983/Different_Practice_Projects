@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
-
+from rest_framework.authtoken import views as token
 from twmwebservice.views import api_views_ootb as apiootb, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset, api_views_core as apicore
 
 router = routers.DefaultRouter()
@@ -8,6 +8,9 @@ router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet) #Since PostCrudV
 #router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet, base_name='ymsViewSet')
 
 urlpatterns = [
+
+    # For DRF Authtoken
+    path('token/', token.obtain_auth_token, name='get-my-token'),
 
     # fbv_views [Function Based Views]
     path('fbv/post/', fbv.get_post_by_using_function_based_view),
