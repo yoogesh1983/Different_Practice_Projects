@@ -14,4 +14,8 @@ urlpatterns = [
     #[-\w]+ means you can take alphanumeric character any number of times (since post is not digits)
     # $ means do not take anything after id
     re_path('(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<post>[-\w]+)/$', views.getPostDetail, name='detail'),
+
+    #MyWebsite
+    path('website/', views.get_my_website),
+    path('website/go', views.get_go_lang_website),
 ]

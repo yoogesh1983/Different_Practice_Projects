@@ -117,3 +117,20 @@ def addPost(request):
             return HttpResponseRedirect('/')
     ctx = {'form': form}
     return TemplateResponse(request, redirecturl, ctx)
+
+
+@login_required
+def get_my_website(request):
+    ctx = populate_context('My Website')
+    return TemplateResponse(request, 'mywebsite/My_WebSite.html', ctx)
+
+
+@login_required
+def get_go_lang_website(request):
+    ctx = populate_context('Go Language')
+    return TemplateResponse(request, 'mywebsite/24_Go_Language/Go.html', ctx)
+
+
+def populate_context(title, *args, **kwargs):
+    ctx = {'title': title}
+    return ctx

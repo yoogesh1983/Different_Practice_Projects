@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	body  { background-color: #d4d5e8;}
+	h1    {color: green;text-align: center;}
+	p     {color: black;}
+  .stride {text-decoration-line: line-through;}
+</style>
+</head>
+<body>
+
+<h1>Go-lang</h1>
+
+<div>
+
+  <div><strong>1) Explain about variables in go language?</strong>
+	<span style="float:right; padding-right:25px; color:green; font-weight:bold"><a href="01_DurgaSoft_Note" target="_blank">Git</a></span></br>
+	 &nbsp;&nbsp = >&nbsp; </div>
+	   <pre style="margin-top:-15px; margin-left:20px;">
+   In go language, there are many ways you can define a variable like below:
+<i>
+       package main
+
+       import "fmt"
+
+       <strong>var i <a href="00_picture/002.png">int</a> = <a href="00_picture/001.png">40</a></strong>                                   // it can be declared at the package level too
+
+       func main(){
+
+         <strong>var j float64</strong>                                  // If you want, you can define it like we do in javascript
+         <strong>j = 40.56</strong>
+
+         <strong>var k int = 60</strong>
+
+         <strong>l := 100</strong>                                      // This is a most popular way of defining where the type is assigned by go itself. But, make sure that <strong>l</strong> has not been defined before.
+
+         fmt.Println(i, j, k, l)                       // 40  40.56  60  100
+         fmt.Printf("%v is a type of %T\n", i, i)      // 40 is a type of int
+       }
+  </i>
+
+- There are three levels of scope for the variable in go language. If a variable is declared at the package level and is of lower case, it is scoped only to that <strong>package</strong>. On the other hand, if it is declared
+  at the package level but with the Upper-case, then that will be the <strong>global</strong> variable. Similarly, all the variables declared inside a function will be the <strong>block</strong> level variable.
+    <i>
+         package main
+  
+         import "fmt"
+  
+         <strong>var J int = 40</strong>                               // Global scope
+         <strong>var i int = 40</strong>                               // package scope
+  
+         func main(){
+  
+           <strong>var k int</strong>                                  // block scope
+         }
+    </i>
+
+- While declaring the variable, the length of the variable name should reflect the life-span of that variable. If the life-span is shorter, we can assing a short name and if the life-span is longer we can
+  give a long name to the variable. Espacially, when declaring variable inside a for loop, it's good to give very short name to the variable since the lifespan of that variable will be very short.
+
+- The <strong>bitwise operator</strong> scenario in go can be defined as follows:
+  <i>
+       package main
+
+       import "fmt"
+
+       func main(){
+
+         <strong>a := 10</strong>                                   // 1010
+         <strong>b := 3</strong>                                    // 0011
+
+         fmt.Println(a & b)                        // 2  [0010]  i.e. and
+         fmt.Println(a | b)                        // 11 [1011]  i.e. or
+         fmt.Println(a ^ b)                        // 9  [1001]  i.e. exclusive
+         fmt.Println(a &^ b)                       // 8  [1000]  i.e. andOR
+         fmt.Println(a &lt;&lt; 3)                       // 80 [1010 000 = 1010000]  i.e. bit-shifting-left
+         fmt.Println(a &gt;&gt; 3)                       // 1  [1010 000 = 0001 i.e. three 0s removes the 010 and stays on the left before 1]  i.e. bit-shiftig-right
+       }
+  </i>
+
+- Similarly, the <strong>complex type</strong> in go can be defined as follows:
+  <i>
+       package main
+
+       import "fmt"
+
+       func main(){
+
+         <strong>var n complex64 = complex(5, 13)</strong>                                                                  // 5 + 13i
+
+         fmt.Printf("Real value is:%v and imaginary value is:%v", real(n), imag(n))                        // Real value is:1 and imaginary value is:2
+       }
+  </i>
+
+- Declaration of <strong>constant</strong> in go is exactly similar to other languages but with little difference:
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>const driverLicense int = 123</strong>          // if you named it 'DriverLicense' then it will be <a href="00_picture/003.png">exported</a> since it thinks we are <a href="00_picture/005.png">declaring</a> it as a global scope. so make it as small d
+         }
+    </i>
+
+- If you want to see the concept of an Enumarated constant <a href="00_picture/006.png"><strong>iota</strong></a>, then below example might be helpful:
+  <i>
+         package main
+  
+         import "fmt"
+         
+         <strong>const (</strong>
+          <strong>isUser = 1 &lt;&lt; iota</strong>                     // iota is a block level with its initial value always zero and will then increase by 1. The value here is <a href="00_picture/004.png"><b>1</b></a>
+          <strong>isAdmin</strong>                                // 10
+          <strong>isDBA</strong>                                  // 100
+          <strong>)</strong>
+  
+         func main(){</i>
+  
+           <strong>var roles byte = isAdmin | isDBA</strong><i>
+
+           fmt.Printf("%b\n", roles)                                          // 110
+           fmt.Printf("Is User? %v\n", isUser & roles == isUser)              // Is User? false
+           fmt.Printf("Is Admin? %v\n", isAdmin & roles == isAdmin)           // Is Admin? true
+           fmt.Printf("Is DBA? %v\n", isDBA & roles == isDBA)                 // Is DBA? true
+         }
+    </i>
+  </pre> 
+  
+ 
+  <div><strong>2) Describe about Arrays and slices in go language?</strong></br>
+     &nbsp;&nbsp = >&nbsp; </div>
+       <pre style="margin-top:-15px; margin-left:20px;">
+   Declaration of Array in go is exactly similar to other languages but with little difference:
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>grades := [3]int{90, 95, 100}</strong>                                        // we must need to declare the size in the begining which cannot be changed later
+           grades[1] = 30
+
+           fmt.Printf("%v \n", grades)                                          // [90 30 100]
+
+           for i, next := range grades {
+            fmt.Printf("%v  is of index %v \n", next, i)                        // output <a href="00_picture/007.png">here</a>
+           }
+         }</i>
+
+- Arrays can be declared of 2D and even 3D depending on the requirement:
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>var identityMatrix [3][3]int</strong>                                        // creating 3 by 3 array of type int for identity matrix
+           identityMatrix[0] = [3]int{1, 0, 0}
+           identityMatrix[1] = [3]int{0, 1, 0}
+           identityMatrix[2] = [3]int{0, 0, 1}
+
+           fmt.Printf("%v \n", identityMatrix)                                // [[1 0 0] [0 1 0] [0 0 1]] 
+         }</i>
+
+- The one difference in array in go language as compared to other languages array is that array is actually a value instead of pointing to a memory which means it does the deep cloning instead of shallow
+  cloning when copying array (since array is <a href="00_picture/008.png">pass-by-value</a> in go):
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>a := [...]int{90, 95, 100}</strong>                                          // instead of 3 we can put three dot(.) also
+
+           b := a
+           b[0] = 200
+
+           fmt.Printf("%v \n", a)                                             // [90 95 100] 
+           fmt.Printf("%v \n", b)                                             // [200 95 100]
+         }
+        </i>
+
+- By the way if you don't want this feature and want to point a same object i.e. pass by reference, then you need to use a pointer:
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>a := [...]int{90, 95, 100}</strong>
+
+           b := <strong>&a</strong>                                                            // pointing to the address of an array
+           b[0] = 200
+
+           fmt.Printf("%v \n", a)                                             // [200 95 100] 
+           fmt.Printf("%v \n", <strong>*b</strong>)                                            // [200 95 100]
+         }
+        </i>
+
+- The reason we need to declare the size at the compile time in the case of array, it is not very often used in go. instead we use <strong>slice</strong> where we don't need to declare a size at the compile time:
+  <i>
+         package main
+  
+         import "fmt"
+  
+         func main(){
+  
+           <strong>a := []int{90, 95, 100}</strong>                                          // slice is basically an extension of array feature which is <a href="00_picture/009.png">resizeable</a> in nature
+
+           b := <strong>a</strong>                                                           // Slice is <a href="00_picture/008.png">pass-by-reference</a> by default and hence we don't need pointer unlike an array. which menas it is shallow cloning.
+           b[0] = 200
+
+           fmt.Printf("%v \n", a)                                          // [200 95 100] 
+           fmt.Printf("%v \n", <strong>b</strong>)                                          // [200 95 100]
+         }
+        </i>
+
+- Slice can be declared using a <strong>make()</strong> function also:
+    <i>
+           package main
+    
+           import "fmt"
+    
+           func main(){
+    
+             <strong>a := make([]int, 3)</strong>
+
+             fmt.Printf("%v \n", a)                                        // [0 0 0] 
+             fmt.Printf("Length: %v \n", len(a))                           // 3
+             fmt.Printf("Capacity: %v \n", cap(a))                         // 3
+             
+
+             <strong>b := make([]int, 3, 200)</strong>                                      // you can meanwhile <a href="00_picture/010.png">set</a> the capacity of the slice while declaring it too!!
+
+             fmt.Printf("%v \n", b)                                        // [0 0 0] 
+             fmt.Printf("Length: %v \n", len(b))                           // 3
+             fmt.Printf("Capacity: %v \n", cap(b))                         // 200
+
+
+             <strong>b = append(b, 7, 8, 9)</strong>                                        // Can <a href="00_picture/011.png">append</a> the value at any time
+
+             fmt.Printf("%v \n", b)                                        // [0 0 0 7, 8, 9] 
+             fmt.Printf("Length: %v \n", len(b))                           // 6
+             fmt.Printf("Capacity: %v \n", cap(b))                         // 200
+           }
+          </i>
+
+- We can do many operations on a slice. some of them are shown below:
+    <i>
+           package main
+    
+           import "fmt"
+    
+           func main(){
+    
+             <strong>a := []int {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</strong>
+
+             b := a[:]                                                      // slice of all elements
+             c := a[3:]                                                     // slice from 4th element to end
+             d := a[:6]                                                     // slice from 6 elements
+             e := a[3:6]                                                    // slice 4th, 5th and 6th elements
+
+             fmt.Printf("%v \n", b)                                         // [1 2 3 4 5 6 7 8 9 10]
+             fmt.Printf("%v \n", c)                                         // [4 5 6 7 8 9 10] 
+             fmt.Printf("%v \n", d)                                         // [1 2 3 4 5 6] 
+             fmt.Printf("%v \n", e)                                         // [4 5 6] 
+           }
+          </i>
+      </pre> 
+
+
+<div><strong>3) How do you declare Map in Go language?</strong></br>
+&nbsp;&nbsp = >&nbsp; </div>
+<pre style="margin-top:-15px; margin-left:20px;">
+   Declaration of map in go is straight forward:
+<i>
+         package main
+     
+         import "fmt"
+     
+         func main(){
+     
+           <strong>student := map[string]int{</strong>
+             "yoogesh": 7137872412,         
+           <strong>}</strong>
+
+           fmt.Println(student)                                               // map[yoogesh:7137872412]
+           fmt.Println(student["yoogesh"])                                    // 7137872412
+
+         }</i>
+
+- Map can also be declared using a <strong>make()</strong> function:
+<i>
+         package main
+     
+         import "fmt"
+     
+         func main(){
+     
+           <strong>student := make(map[string]int)</strong>
+           student["yoogesh"] = 7137872412                
+
+           fmt.Println(student)                                               // map[yoogesh:7137872412]
+           fmt.Println(student["yoogesh"])                                    // 7137872412
+
+           <strong>delete(student, "yoogesh")</strong>                                         // delete() function is used to delete the entry from the map
+           fmt.Println(student)                                               // map[]
+         }</i>
+
+- The return order of map cannot be guaranteed it can come in an any order when you print all. This is exactly opposite than the slice where the order in which items returned will be guaranteed.
+
+- Just like slices, map is also <a href="00_picture/008.png">pass-by-reference</a> where the underlying map will get changed when we do any modification to its reference
+
+- When you want to search the value where the key does not exist in a map, you may think you will get null return since in java it will return null. However in golang, it will not return null or nil. Instead
+  it will return 0. So in this situation, if you want to make sure the value is found, you can see whether the second return value <strong>ok</strong> is true or false:
+  <i>
+          package main
+
+          import "fmt"
+
+          func main(){
+
+            <strong>student := make(map[string]int)</strong>
+            student["yoogesh"] = 7137872412  
+
+            val, ok := student["yoogesh"]
+            fmt.Println(val, ok)                                 // 7137872412 true
+
+            val1, ok1 := student["sushila"]
+            fmt.Println(val1, ok1)                              // 0 false
+          }</i>
+</pre> 
+
+<div><strong>4) Describe about structs in go?</strong></br>
+  &nbsp;&nbsp = >&nbsp; </div>
+  <pre style="margin-top:-15px; margin-left:20px;">
+   We saw that array and slices cannot have different data types.Samething is for map too since it has to have a same Key even if the value can be different type. so to get rid of the complexity where we want
+  to save all the datatypes, a concept of structs is introduced. Genarally, we want the fields declared on a struct to be exported so that it canbe used outside of the current package. So all the variables
+  and struct name should starts with <strong>Capital</strong> letter. By the way you may need to write a comment to the struct that is exported, otherwise you will get <a href="00_picture/014.png">this</a> warning.
+  <i>
+           package main
+       
+           import "fmt"
+
+           <strong>type Person struct {
+             FirstName   string
+             LastName    string
+             ContactInfo</strong>                                                       //contactInfo   contactInfo
+           <strong>}
+
+           type ContactInfo struct {
+             Email   string
+             Zipcode int
+           }</strong>
+       
+           func main(){
+
+              /* var yoogesh Person
+                 yoogesh.FirstName = "Yoogesh"
+                 yoogesh.LastName = "Sharma"
+                 fmt.Printf("%+v", yoogesh)
+              */
+            
+              <strong>yoogesh := Person{
+                FirstName: "Yoogesh",
+                LastName:  "Sharma",
+                ContactInfo: ContactInfo{
+                  Email:   "yoogesh2002@yahoo.com",
+                  Zipcode: 20876,
+                },
+              }</strong>
+
+              yoogesh.print()                                                 // {firstName:Yoogesh lastName:Sharma contactInfo:{email:yoogesh2002@yahoo.com zipcode:20876}}
+           }
+
+           <strong>func (p Person) print() {
+              fmt.Printf("%+v", p)
+           }</strong>
+          </i>
+
+- Since structs is <a href="00_picture/008.png">pass-by-value</a>, we need a pointer to update the existing object. otherwise a new copy will be created and the value of the underlying object <a href="00_picture/013.png">won't update</a>:
+  <i>
+           package main
+       
+           import "fmt"
+
+           type Person struct {
+             FirstName   string
+             LastName    string
+           }
+       
+           func main(){
+
+              var yoogesh Person
+              yoogesh.FirstName = "Yoogesh"
+              yoogesh.LastName = "Sharma"
+
+              fmt.Printf("%+v \n", yoogesh)                                       // {firstName:Yoogesh lastName:Sharma}
+
+              <b><a href="00_picture/012.png">yoogeshpointer</a> := <a href="00_picture/015.png">&yoogesh</a></b> 
+              <b>yoogeshpointer.updateName("Sushila")</b>
+
+              fmt.Printf("%+v \n", yoogesh)                                       // {firstName:Sushila lastName:Sharma}
+            
+
+           }
+
+           <strong>func (p *Person) updateName(newFirstName string) {
+              (*p).FirstName = newFirstName
+           }</strong>
+          </i>
+
+  - We can also declare inline structs and those structs doesn't have a name which are called anonymous struct:
+  <i>
+           package main
+       
+           import "fmt"
+
+           func main(){
+
+              <strong>temp := struct{ name string }{name: "Yoogesh"}</strong>
+
+              fmt.Println(temp)                                               // {Yoogesh}
+              fmt.Printf("%+v \n", temp)                                      // {name:Yoogesh} 
+           }
+          </i>
+
+  - We can use <strong>new</strong> keyword to create an object form the structs. However <strong>new</strong> keyword will not initialize the value. You will need to initialize later:
+  <i>
+           package main
+       
+           import "fmt"
+
+           type Person struct {
+              FirstName string
+              LastName  string
+           }
+
+           func main(){
+
+              <strong>yoogesh := new(Person)</strong>
+
+              fmt.Printf("%+v \n", *yoogesh)                          // {FirstName: LastName:}
+
+              yoogesh.FirstName = "Yoogesh"
+              yoogesh.LastName = "Sharma"
+
+              fmt.Printf("%+v \n", *yoogesh)                          // {FirstName:Yoogesh LastName:Sharma} 
+           }
+          </i>
+
+  - While declaring structs, we can even mention that whether the field is required or not. By the way we can define, but to validate we need to have our logic. using <strong>reflect</strong> package, we can get the required
+    scenario which we can apply during the validate of a form field:
+<i>
+          package main
+
+           import (
+             "fmt"
+             "reflect"
+           )
+
+           type Person struct {
+             <strong>FirstName   string `required max:"100"`</strong>
+             LastName    string
+           }
+
+           func main(){
+
+              <strong>t := reflect.TypeOf(Person{})
+              field, _ := t.FieldByName("FirstName")
+              fmt.Println(field.Tag)</strong>                     // required max:"100"
+
+              var yoogesh Person
+              yoogesh.FirstName = "Yoogesh"
+              yoogesh.LastName = "Sharma"
+
+              fmt.Printf("%+v \n", yoogesh)         // {firstName:Yoogesh lastName:Sharma} i.e. it will print even if the max length is not 100. so to apply the validation logic using <strong>field.Tag</strong> is your task!!
+           }</i>
+  </pre> 
+
+  <div><strong>5) How do you use switch statement in go?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   A simple switch statement in go language is shown below. One thing to pointout is that in Go, the <strong>break</strong> keyword is implicitely applied by the language itself after each block of case statement and hence
+  as a developer, you don't need to explicitely write a <b>break</b> keyword:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>switch 2 {
+
+                  case 1:
+                           fmt.Println("One")
+
+                  case 2:
+                           fmt.Println("One")
+
+                  default:
+                           fmt.Println("neither ONE nor TWO")
+                }</strong>
+             }
+            </i>
+
+  - You can even put like the multiple values in a statement:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                switch 100 {
+
+                  <strong>case 1, 2, 3, 4:</strong>
+                                   fmt.Println("One, two, three, four")
+
+                  <strong>case 5, 10, 15, 100:</strong>
+                                       fmt.Println("five, ten, fifteen, hundred")
+
+                  default:
+                           fmt.Println("Didn't match above values!!")
+                }
+             }
+            </i>
+
+  - You can even apply the logic in a case like below:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>i := 10</strong>
+
+                <strong>switch</strong> {
+
+                  <strong>case i <=10 :</strong>
+                                   fmt.Println("The value is up to 10")         // here, 10 matches to both case 1 and case 2. so what if you want to print both i.e. <a href="00_picture/016.png">ignore</a> the explicit break keyword?
+
+                  <strong>case i <=20 :</strong>
+                                 fmt.Println("The value is up to 20")
+
+                  default:
+                           fmt.Println("Didn't match above values!!")
+                }
+             }
+            </i>
+
+  - By the way the most common usecase of switch is statement is <a href="00_picture/017.png"><strong>at</strong></a> type switch:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>var i interface{} = 1</strong>
+
+                <strong>switch i.(type)</strong> {
+
+                  <strong>case int :</strong>
+                                   fmt.Println("i is an int")
+
+                  <strong>case float64 :</strong>
+                                       fmt.Println("i is a float64")
+
+                  <strong>case string :</strong>
+                                       fmt.Println("i is string")
+
+                  default:
+                           fmt.Println("i is another type")
+                }
+             }
+            </i>
+    </pre> 
+  <div><strong>6) Describe about Looping statement in Go?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Talking about for loop in go, we can start from the simple for loop that are used on almost all languages:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>for i :=0; i &lt; 5; i++ {</strong>
+                  <strong>fmt.Println(i)</strong>                                    // 0 1 2 3 4
+                <strong>}</strong>
+             }</i>
+
+  - Unlike other languages, go doesn't have a <strong>while</strong> keyword. However you can make like a while loop using for loop itself:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>i := 0</strong>
+
+                <strong>for ; i &lt; 5; {</strong>                                      // By the way you can even do <a href="00_picture/023.png"><strong>for i &lt; 5</strong></a> without having <strong>;</strong> also if you want
+                  <strong>fmt.Println(i)</strong>                                    // 0 1 2 3 4
+                  <strong>i++</strong>
+                <strong>}</strong>
+             }</i>
+
+  - Similarly, if you want infinite loop, then you can just do <strong>for</strong> like below:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>for {</strong>
+                  <strong>fmt.Println("hello")</strong>
+                  <strong>break</strong>                                             // As always, you can use <strong>break</strong> keyword to exit from the loop to prevent it from infinite run!!
+                <strong>}</strong>
+             }</i>
+
+  - If you want to totally exit from the middle of the loop especially in the case of double for loop, you can give the tag name and then exit that tag:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+             <strong>Loop:</strong>
+
+                <strong>for i :=1; i<=3; i++ {</strong>
+
+                  <strong>for j :=1; j<=3; j++ {</strong>
+
+                    <strong><a href="00_picture/021.png"><strong>fmt</strong></a>.Println(i * j)</strong>
+                    <strong>if i * j >= 3 {</strong>
+                      <strong>break Loop</strong>                                  // The benefit of this approach is you don't need to put another <strong>break</strong> statement to the outer loop to exit from that too!!
+                    <strong>}</strong>
+                  <strong>}</strong>
+                <strong>}</strong>
+             }</i>
+
+  - Meanwhile, if you want to print the collection of elements one by one, then you need to use for range loop where you assign the <strong>key</strong> and <strong>value</strong> to the variable:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                s := []int {1, 2, 3}
+
+                <strong>for k, v := range s {</strong>                             // here, if you don't print <strong>k</strong> then it will become unused variable and hence will give an error. so in this situation you can <a href="00_picture/018.png"><strong>use _</strong></a>
+                  <strong><a href="00_picture/019.png"><strong>fmt</strong></a>.Println(k, " :", v)</strong>
+                <strong>}</strong>
+             }</i>
+
+  - Similarly, if you want to print Map using the for range loop, you can do below:
+<i>
+         package main
+     
+         import "fmt"
+     
+         func main(){
+     
+           student := map[string]int{
+             "yoogesh": 7137872412,         
+           }
+
+           <strong>for k, v := range student {
+            <a href="00_picture/020.png"><strong>fmt</strong></a>.Println("Key:", k, "Value:", v)
+           }</strong>
+         }</i>
+
+  - Range for-loop can also be applied for String:
+<i>
+         package main
+     
+         import "fmt"
+     
+         func main(){
+     
+           s := "hello Yoogesh"
+
+           for k, v := range s {
+            <a href="00_picture/022.png"><strong>fmt</strong></a>.Println("Key:", k, "Value:", <strong>string(v)</strong>)
+           }
+         }</i>
+    </pre> 
+
+  <div><strong>7) What is defer function in go language?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <strong>defer</strong> is one of the helpful function in go that will defer the execution later i.e. after the function is done but before it returns something:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Start")
+                <a href="00_picture/024.png"><strong>defer</strong></a> fmt.Println("Middle")
+                fmt.Println("End")
+             }</i>
+
+  - This <strong>defer</strong> function is mainly useful when you want to close resources right after opening it (so that you will not forget to close it). Meanwhile, you might not want to use the defer function inside the
+    loop that is opening millions of resources while looping around. When you use the defer fucntion there, then those will not be closed until the outer fuction returns the value (by that time you may have
+    millions of objects in a heap!!)
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                res, err := http.Get("http://www.google.com/robots.txt")
+
+                <strong>defer res.Body.Close()</strong>                                     // Because of the defer function, we no need to declare after we get the respose. we can declare <a href="00_picture/025.png"><strong>right away</strong></a> so we will not forget!!
+                
+                if err != nil {
+                  log.Fatal(err)
+                }
+
+                robots, err := ioutil.ReadAll(res.Body)
+                // res.Body.Close()
+                if err != nil {
+                  log.Fatal(err)
+                }
+                fmt.Printf("%s", robots)
+             }</i>
+    </pre> 
+
+  <div><strong>8) What is panic and recover function in go language?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   you can say <strong>panic</strong> is an exception in go language. Unlike other language, there is not exception keyword in go. By the way, if you want to open a file and if it could not open, then instead of getting IO
+  exception, you will get error in go since that is considered a normal error in go language. However, there are some scenario where the program cannot continue its execution further and in such condition,
+  an exception is thrown which is excually in golanguage, we say the program is <a href="00_picture/026.png">panicked</a>. You can through the panic maually in your function like below:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Start")
+                <strong><a href="00_picture/027.png">panic</a>("Something went wrong!!!")</strong>
+                fmt.Println("End")
+             }</i>
+
+  - The <strong>defer</strong> function will always be executed before the panic making sure that all resources will be closed evenif the exception occur like <strong>finally</strong> keyword in java:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Start")
+                defer fmt.Println("This was deferred")
+                <strong><a href="00_picture/028.png">panic</a>("Something went wrong!!!")</strong>
+                fmt.Println("End")
+             }</i>
+             
+  - The above scenario will be helpful especially if you want to log only if the error occur and that's where the <strong>recover()</strong> comes into the picture. So you can say the <strong>recover</strong> function is a <strong>catch</strong> in go:
+    <i>
+             package main
+         
+             import "fmt"
+             import "log"
+
+             func main(){
+
+                fmt.Println("Start")
+
+                <strong>defer func(){
+                  err := recover()
+                  if err != nil {
+                    <a href="00_picture/029.png">log</a>.Println("TWM Error:", err)</strong>  //Current function won't attempt to continue, but higher function on callstack will. So if you totally want to throw exception and stop, you can <a href="00_picture/030.png">rethrow</a> it
+                  <strong>}
+                }()</strong>
+
+                panic("Something went wrong!!!")</strong>
+
+                fmt.Println("End")
+             }</i>
+
+  - Make sure the <strong>recover()</strong> function can only be used inside the <strong>defer</strong> function and the reason for that is because of the behaviour of panic. When an application starts the panic, it will no longer execute
+    the rest of the lines of that function (make sure other function will execute and if you don't want to continue, then you can <a href="00_picture/030.png">rethrow</a> it) and will execute the defer function instead. So the proper place
+    to use the recover function is inside the defer function that's gonna look for panic in situation and if the application is panicking, it then go ahead and decide what to do withit. Moreover, the <strong>panic()</strong>
+    function is widely used in web applications on a <a href="00_picture/031.png">startup</a> phase validation.
+
+  - An application is in <strong>panic</strong> means the application cannot continue. So in that case, we throw the exception so that it goes upto the main function and terminates the application (especially in the case of
+    Java). But what about the below scenario? Do we really want to terminate the application? I don't think so. In java term we could just catch and continue further right? Yes, in go if you don't want to
+    terminate a program just because of one simple wrong value, then don't through the panic like above. Just pass the second return paramter as <strong>error</strong> and check that to decide what to do:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                d, err := divide(10, 0)
+                if err != nil {
+                  fmt.Println(err)
+                  return
+                }
+                <a href="00_picture/033.png">fmt</a>.Println(d)
+             }
+
+             <strong>func divide (a, b int) (int, error) {
+                if b == 0 {
+                   return 0, fmt.Errorf("Cannot divide by Zero")
+                }
+                return a/b, nil
+             }</strong></i>
+    </pre> 
+
+  <div><strong>9) How the pointer canbe used on golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <strong>pointer</strong> in golang is one of the most important concept that we should understand. Mostly the pointer concept is applicable for those data structures which are <strong>pass-by-value</strong> and you want them to be done as
+  <a href="00_picture/008.png">pass-by-reference</a>:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                var a int = 45
+
+                <strong>fmt.Println(a)</strong>                      // 45
+                <strong>fmt.Println(&a)</strong>                     // 0xc0000b4008 i.e. We are printing the address of variable <strong>a</strong>
+                <strong>fmt.Println(*&a)</strong>                    // 45 i.e. This is called de-referencing of &a where we would want to know what the value is stored into that address which is equivalent to the variable <strong>a</strong>
+
+
+                <strong>var b <a href="00_picture/032.png">*int</a> = &a</strong>                     // assigning the address of variable <strong>a</strong> to a new variable <strong>b</strong>
+                <strong>fmt.Println(b)</strong>                      // 0xc000136008 i.e. it is exactly like <strong>&a</strong>
+                <strong>fmt.Println(*b)</strong>                     // 45 i.e. it is exacly like <strong>*&a</strong>
+
+
+                <strong>*b = 72</strong>                             // changing the value of variable <strong>b</strong>
+                <strong>fmt.Println(a, b)</strong>                   // 72, 72 i.e. since a and b point to the same address 0xc0000b4008, value for both will now be 72
+             }</i>
+
+  - Pointer on Arrays also have a same concept that holds memory addess for each values in an array. By the way, remember that slices are pass-by-reference and hence we don't need to worry about pointers:
+  <i>
+             package main
+       
+             import "fmt"
+
+             func main(){
+
+                a := [3]int{15, 20, 45}
+
+                <strong>fmt.Println(&a[0])</strong>                 // 0xc000014140
+                <strong>fmt.Println(*&a[0])</strong>                // 15
+             }</i>
+
+  - Since structs is <a href="00_picture/008.png">pass-by-value</a>, we need a pointer to update the existing object. otherwise a new copy will be created and the value of the underlying object <a href="00_picture/013.png">won't update</a>:
+  <i>
+             package main
+       
+             import "fmt"
+
+             type Person struct {
+               FirstName   string
+               LastName    string
+             }
+       
+             func main(){
+
+                var yoogesh Person
+                yoogesh.FirstName = "Yoogesh"
+                yoogesh.LastName = "Sharma"
+
+                fmt.Printf("%+v \n", yoogesh)                                       // {firstName:Yoogesh lastName:Sharma}
+
+                <b><a href="00_picture/012.png">yoogeshpointer</a> := <a href="00_picture/015.png">&yoogesh</a></b> 
+                <b>yoogeshpointer.updateName("Sushila")</b>
+
+                fmt.Printf("%+v \n", yoogesh)                                       // {firstName:Sushila lastName:Sharma}
+             }
+
+             <strong>func (p *Person) updateName(newFirstName string) {</strong>
+                <strong>(*p).FirstName = newFirstName</strong>                                      // You can do <strong>p.FirstName</strong>, however in this case also the compiler will automatically convert it to <strong>(*p).FirstName</strong>
+             <strong>}</strong></i>
+    </pre>
+
+  <div><strong>10) What is Variadic parameter or functions in golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <strong>Variadic</strong> in go is a kind of var arg in java that can have any argument in a function:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+                result := sum("The sum is ", 1, 2, 3, 4, 5)
+                <strong>fmt.Println(result)</strong>                                                 // The sum is 15
+             }
+
+             <strong>func sum(msg string, values ... int) string {</strong>                          // The variadic variable must be the last of the argument otherwise it will not work!!
+               fmt.Println(values)                                                  // [1 2 3 4 5]
+               temp := 0
+               for _, v := range values {
+                  temp += v
+               }
+               result := msg + strconv.FormatInt(int64(temp), 10)
+
+               <strong>return result</strong>
+            <strong>}</strong></i>
+
+  - The above example returns the copy. However if you want to return the reference, then you can use the pointer:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+                result := sum("The sum is ", 1, 2, 3, 4, 5)
+                <strong>fmt.Println(*result)</strong>                                                 // The sum is 15
+             }
+
+             <strong>func sum(msg string, values ... int) *string {</strong>
+               fmt.Println(values)
+               temp := 0
+               for _, v := range values {
+                  temp += v
+               }
+               result := msg + strconv.FormatInt(int64(temp), 10)
+               
+               <strong>return &result</strong>    // You are returning an address of result which will be destroyed after this method finishes its execution. but still you will get it and this is becuase of closure in go!!
+            }</i>
+
+  - Another thing we can do is we can even define a name of the return so that we don't need to declare while returning. however this is used not very often:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+                result := sum("The sum is ", 1, 2, 3, 4, 5)
+                <strong>fmt.Println(result)</strong>                                                  // The sum is 15
+             }
+
+             func sum(msg string, values ... int) <strong>(result string)</strong>  {
+               fmt.Println(values)
+               temp := 0
+               for _, v := range values {
+                  temp += v
+               }
+               result <strong>=</strong> msg + strconv.FormatInt(int64(temp), 10)                     // Since it is already declared, we just need to reassign here so no need of <strong>:=</strong>
+               
+               <strong>return</strong>                                                                // No need the <strong>return result</strong>
+            }</i>
+    </pre>
+
+  <div><strong>11) What is annynomous function and how can you use it?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Annynomous function a function which doesn't have a name:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+                for i := 0; i &lt; 5; i++ {
+                    <strong>func(value int) {</strong> 
+                        <strong>fmt.Println(value)</strong>   // Although you can directly use the outer i variable, never do that. it will give issue in the case of multithreading. i variable must be passed via function()
+                    <strong>}(i)</strong>
+                }
+             }</i>
+    </pre>
+
+  <div><strong>12) Can we do a pass-by-reference on a function that has Receiver on it?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Yes! we can do a pass-by-reference on a function that has receiver on it. Think of receiver function as an object level method i.e. instance method but not a class level method i.e. static method. Since
+  the object of receiver is structs and that is <a href="00_picture/008.png">pass-by-value</a> by default, it will make a copy of it if you don't use pointer:
+  <i>
+           package main
+       
+           import "fmt"
+
+           type Person struct {
+             FirstName   string
+           }
+
+           func main(){
+
+              yoogesh := Person{
+                FirstName: "Yoogesh",
+              }
+
+              <strong>yoogesh.updateFirstName()</strong>
+
+              <a href="00_picture/034.png">fmt</a>.Println("Old FirstName:", yoogesh.FirstName)                      // Old FirstName: Yoogesh
+           }
+
+           <strong>func (p Person) updateFirstName() {
+              p.FirstName = "Sushila"</strong>
+              fmt.Println("New FirstName:", p.FirstName)                            // New FirstName: Sushila
+           <strong>}</strong>
+          </i>
+
+  - Meanwhile, if you use the pointer, then it will be pass-by-reference:
+  <i>
+           package main
+       
+           import "fmt"
+
+           type Person struct {
+             FirstName   string
+           }
+
+           func main(){
+
+              yoogesh := Person{
+                FirstName: "Yoogesh",
+              }
+
+              <strong>yoogesh.updateFirstName()</strong>                                              // Actually the compiler on a run time will convert it like <a href="00_picture/036.png">this</a>
+
+              <a href="00_picture/035.png">fmt</a>.Println("Old FirstName:", yoogesh.FirstName)                       // Old FirstName: Sushila
+           }
+
+           <strong>func (p *Person) updateFirstName() {
+              p.FirstName = "Sushila"</strong>
+              fmt.Println("New FirstName:", p.FirstName)                             // New FirstName: Sushila
+           <strong>}</strong>
+          </i>
+    </pre>
+
+  <div><strong>13) What is interface in golang and where do you use it?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <strong>Interface</strong> is also a type just like structs that is used to include common methods. However unlike structs, Interface doesn't describe data but it describes behaviour instead:
+  <i>
+           package main
+       
+           import "fmt"
+           
+           func main(){
+
+              message := []byte("Welcome to go programming language")
+              var w Writer = new(ConsoleWriter)
+              <strong>w.Write(message)</strong>                                                         // Here we dont care about what is the writer that is writing the message. It can be any writer!!
+           }
+
+           type Writer interface {                          // If there is only one method inside an interface, then the convention is the interface name should be a <strong>methodName + er </strong> i.e. Writer + er = Writer
+              Write([]byte) (int, error)
+           }
+
+           type ConsoleWriter struct {
+           }
+
+           func (cw ConsoleWriter) Write(data []byte) (int, error) {
+              n, err := fmt.Println(string(data))                                      // ConsoleWriter is implementing that interface and this method just printing out to the console!!
+              return n, err
+           }
+          </i>
+
+  - In above example, we first created an interface <strong>Writer</strong> and then only we created a concrete type <strong>ConsoleWriter</strong> that implements the interface. However there is nothing to say that we can't go otherway
+    around. If you need to wrap a concrete type for example and somebody <a href="00_picture/037.png">hasn't</a> published an interface, You can actually do that by creating an interface that their type implements and its done!! This is
+    actually strange to other programming languages where you must need to have an interface at the design time. Also in above example, we use the struct which is the most common ways to implement interfaces.
+    But you don't need to. Any type that have a method associated with it can implement an interface and ofcourse in golang, any type can have a method <a href="00_picture/038.png">associated</a> with it:
+  <i>
+           package main
+       
+           import "fmt"
+           
+           func main(){
+
+              myInt := IntegerCounter(10)                                         // Type casting integer value 10 to IntegerCounter
+              var myIntPointer Incrementer = &myInt                               // Since Integer is <a href="00_picture/008.png">pass-by-value</a>, we need to pass pointer instead!!
+              <strong><a href="00_picture/039.png">fmt</a>.Println(myIntPointer.Increment())</strong>                               // 11
+           }
+
+           type Incrementer interface {
+              Increment() int
+           }
+
+           type IntegerCounter int
+
+           func (i *IntegerCounter) Increment() int {
+              *i++
+              return int(*i)
+           }
+          </i>
+
+  - You can even compose interfaces together if there are multiple interfaces:
+  <i>
+           package main
+       
+           import "fmt"
+           
+           func main(){
+
+              message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")
+              var wc WriterCloser = TWMBufferedWriterCloser()                                                // This is actually a <a href="00_picture/047.png">function</a> we are using here. so don't confuse..
+              <strong>wc.Write(message)</strong>
+              <strong>wc.Close()</strong>
+           }
+
+
+
+           <strong>/* Interfaces */</strong>
+
+           type Writer interface {
+              Write([]byte) (int, error)
+           }
+
+           type Closer interface {
+              Close() error
+           }
+
+           type WriterCloser interface {
+              Writer
+              Closer
+           }
+
+
+           <strong>/* Writer and Closer implementation */</strong>
+
+           type BufferedWriterCloser struct {
+              buffer *bytes.Buffer
+           }
+
+
+           func (bwc *BufferedWriterCloser) Write(data []byte) (int, error) {
+              n, err := bwc.buffer.Write(data)
+              if err != nil {
+                return 0, err
+              }
+
+              v := make([]byte, 10)
+              for bwc.buffer.Len() > 10 {
+                _, err := bwc.buffer.Read(v)
+                if err != nil {
+                  return 0, err
+                }
+
+                _, err = <strong><a href="00_picture/040.png">fmt</a></strong>.Println(string(v))
+                if err != nil {
+                  return 0, err
+                }
+              }
+              return n, nil
+            }
+
+
+           func (bwc *BufferedWriterCloser) Close() error {
+            for bwc.buffer.Len() > 0 {
+              data := bwc.buffer.Next(10)
+              _, err := <strong><a href="00_picture/040.png">fmt</a></strong>.Println(string(data))
+              if err != nil {
+                return err
+              }
+            }
+            return nil
+            }
+
+
+            <strong>/* Creating BufferedWriterCloser Object */</strong>
+
+           func TWMBufferedWriterCloser() *BufferedWriterCloser {
+            return &BufferedWriterCloser{
+              buffer: bytes.NewBuffer([]byte{}),
+            }
+          }
+          </i>
+
+  - You can also do the type conversion from one object to another object i.e. <i>TWMBufferedWriterCloser</i> to <i>BufferedWriterCloser</i> object and start working on that object:
+  <i>
+           package main
+       
+           import "fmt"
+           
+           func main(){
+
+              message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")
+              var wc WriterCloser = TWMBufferedWriterCloser()
+              wc.Write(message)
+              wc.Close()
+
+              <strong>bwc := wc.(*BufferedWriterCloser)</strong>
+              <strong><strong><a href="00_picture/042.png">fmt</a></strong>.Println(bwc)</strong>                                             // &{0xc000062180}
+           }
+          </i>
+
+  - By the way, if you try to convert it to <strong>io.Reader</strong> object, it's convesion fails since <strong>io.Reader</strong> has a method reader which is not implemented here. So in this situation it will throw a panic:
+  <i>
+           package main
+       
+           import "fmt"
+           import "io"
+           
+           func main(){
+
+              message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")
+              var wc WriterCloser = TWMBufferedWriterCloser()
+              wc.Write(message)
+              wc.Close()
+
+            /* <span class='stride'>bwc := wc.(*BufferedWriterCloser)</span> */
+              <strong>bwc := wc.(io.Reader)</strong>
+              <strong><a href="00_picture/043.png">fmt</a></strong>.Println(bwc)
+           }
+          </i>
+
+  - However every time this kind of panicking when we try to convert into other object is not good. So we have otherway around to do it:
+  <i>
+           package main
+       
+           import "fmt"
+           import "io"
+           
+           func main(){
+
+              message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")
+              var wc WriterCloser = TWMBufferedWriterCloser()
+              wc.Write(message)
+              wc.Close()
+
+            /* <span class='stride'>bwc := wc.(*BufferedWriterCloser)</span> */
+              <strong>bwc, ok := wc.(io.Reader)</strong>
+              <strong>if ok {</strong>
+                <strong><a href="00_picture/041.png">fmt</a>.Println(bwc)</strong>
+              <strong>} else {</strong>
+                <strong><a href="00_picture/041.png">fmt</a>.Println("Conversion failed!!")</strong>
+              <strong>}</strong>
+           }
+          </i>
+    </pre>
+
+  <div><strong>14) What is the empty interface and where it is useful?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Empty interface is that interface which doesnot have any method on it:
+  <i>
+           <strong>type Yms interface {</strong>           // This interface does not have any method on it. So it is empty interface
+
+           <strong>}</strong>
+          </i>
+
+  - The question is do we ever need an interface that has no method on it? Obviously in a fisrt glance, it seems like we never need this kind of empty interfaces, but actually it is very useful on golang.
+    you may notice that <strong>int</strong>, <strong>float</strong> etc doesnot have any method on it since these are not a wrapper type. This means we can map these int, float etc to that empty interface <strong>Yms</strong>, right? Make sure not only int
+    and floate, you can map it to any type i.e. your own type <strong>TWMBufferedWriterCloser</strong> too. However, since you don't have any method on it, you really don't do anything on it in which situation you have no
+    option other than either typecast the object to findout which type of object it is or use a reflect method on it. We are using the typecast method below:
+  <i>
+           package main
+       
+           import "fmt"
+           
+           func main(){
+
+            /*
+              <span class='stride'>message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")</span>
+              <span class='stride'>var wc WriterCloser = TWMBufferedWriterCloser()</span>
+              <span class='stride'>wc.Write(message)</span>
+              <span class='stride'>wc.Close()</span>
+            */
+
+              <strong>message := []byte("Hi-YoogeshHi-YoogeshHi-YoogeshHi-Yoogesh")
+              var Yms interface{} = TWMBufferedWriterCloser()
+              wc, ok := Yms.(WriterCloser)</strong>                                                                // Point to be noted <strong><a href="00_picture/046.png">here</a></strong>
+              <strong>if ok {
+                wc.Write(message)
+                wc.Close()
+              }</strong>
+
+            /* <span class='stride'>bwc, ok := wc.(*BufferedWriterCloser)</span> */
+              <strong>bwc, ok := Yms.(*BufferedWriterCloser)</strong>                                                      // bwc, ok := Yms.(io.Reader) 
+              <strong>if ok {
+                <a href="00_picture/044.png">fmt</a>.Println(bwc)
+              } else {
+                <a href="00_picture/044.png">fmt</a>.Println("Conversion failed")
+              }</strong>
+           }
+          </i>
+
+  - This feature is actually very important when you want to see the type of the value you entered:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <strong>var Yms interface{} = 15</strong>
+
+                <strong>switch Yms.(type)</strong> {                                                       // Make sure this <b>Yms.(type)</b> can only be used on switch and <a href="00_picture/045.png">can not</a> use on other areas
+
+                  <strong>case int :</strong>
+                                   fmt.Println("Value is an int type")
+
+                  <strong>case float64 :</strong>
+                                   fmt.Println("Value is a float64 type")
+
+                  <strong>case string :</strong>
+                                   fmt.Println("Value is string type")
+
+                  default:
+                           fmt.Println("Value is another type")
+                }
+             }
+            </i>
+    </pre>
+
+  <div><strong>15) What is Go Routine and how can you use it?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <strong>Go-Routine</strong> is a Thread in golang that runs parallel with the main thread. Unlike Threads in java which is heavy, Go-routine is light weight.
+
+ - Most programming languages that you've probably heard of and work with is operating system threads. What that means is that they've got an individual function call stack dedicated to the execution of the
+   whatever code is handed to that thread.Traditionally, these threads are going to be very very large. Even for 1 MB of RAM, it takes quite a bit of time for the application to setup and so you want to be
+   very very conservative about how you use your threads. That is the reason, we get into the concept of thread pooling and things like that because the creation and destruction of thread is very expensive
+   and hence we totally want to avoid the concept of Thread (until and unless it is really needed) in most programming languages such as Java or C#. In golang, it follows a different model and as a matter of
+   fact the first place i saw this model was used by the <strong>Erlang</strong> language and this is using what's called a <a href="00_picture/048.png"><strong>Green Thread</strong></a>. So, instead of creating these very massive overhead threads, we are going to create an
+   abstraction of a thread that we call <strong>Go-Routine</strong> which is managed by Runtime (in java it is called JVM) itself. So inside the go runtime, we've got a scheduler that's going to map these go routines on to
+   these operating system threads for period of time and the schedular will then take turns with every CPU thread that's available and assigns the different go-routines a certain amount of processing time on
+   those threads. But we don't have to interact to those low level threads directly (like we do in Java) and instead we interact with these high level Go routines. The advantage of that is since we have this
+   abstraction, Go-routine can start with very very small stack spaces because they can be re-allocated very very quickly and so they are very cheap to create and to destroy. So, it's not un-conmon in a go
+   appliction to see thousands or tens of thousands of Go-Routines running at the same time and the application has no problem with that at all. Now, compare that to other languages that rely on operating
+   system thread that have 1 MB of overhead (RAM). There is no way you can run 10,000 threads in an environment like that. So by using <strong>Go-Routine</strong>, we get this nice lightweight abstraction over a thread and
+   we no longer have to be afraid of creating and destroying them.
+
+ - Creating of Go-Routine is very simple, just put <strong>go</strong> keyword before the function and that's done:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                <a href="00_picture/049.png"><strong>fmt</strong></a>.Println("Good Morning")                     // Main Go-Routine started
+                <strong>go</strong> sayHello()                                   // Child Go-Routine started
+                fmt.Println("Bye Bye!!")                        // Main Go-routine finished
+             }
+
+             func sayHello() {
+                fmt.Println("Yoogesh")                          // Child Go-Routine finished
+             }
+    </i>
+
+ - In above example, the main Routine terminates before our go Routine even executes. This means we some how need to stop the Main Routine to terminate until the child routine finish its task. We can do it by
+   by making Main-Routine sleep for certain time so that the child can finish its task during that period:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Good Morning")
+                <strong>go</strong> sayHello()
+                fmt.Println("Bye Bye!!")
+                <strong>time.Sleep(100 * time.Millisecond)</strong>              // sleeping for 100 <a href="00_picture/050.png">millisecond</a>
+             }
+
+             func sayHello() {
+                <a href="00_picture/051.png"><strong>fmt</strong></a>.Println("Yoogesh")
+             }
+    </i>
+
+ - By the way, go-Routine can be created not only to the named function but for annynomous function too:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Good Morning")
+
+                <strong>var name string = "Yoogesh"
+                go func(){
+                  <a href="00_picture/052.png"><strong>fmt</strong></a>.Println(name)
+                }()</strong>
+
+                fmt.Println("Bye Bye!!")
+                time.Sleep(100 * time.Millisecond)
+             }
+    </i>
+
+ - However, you need to be very careful while working on anonymous function:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Good Morning")
+
+
+                var name string = "Yoogesh"
+                go func(){
+                  <a href="00_picture/053.png"><strong>fmt</strong></a>.Println(name)                           // If you expect here to print <strong>Yoogesh</strong>, it may disappoint you since it prints <strong>Sushila</strong> and this is called <a href="00_picture/055.png"><strong>Race Condition</strong></a>
+                }()
+                <strong>name = "Sushila"</strong>
+
+
+                fmt.Println("Bye Bye!!")
+                time.Sleep(100 * time.Millisecond)
+             }
+    </i>
+
+ - The above issue can be fixed by not directly accessing the variable from outer scope, but by passing value as a parameter from the function:
+    <i>
+             package main
+         
+             import "fmt"
+
+             func main(){
+
+                fmt.Println("Good Morning")
+
+
+                var name string = "Yoogesh"
+                go func(<strong>value string</strong>){
+                  <a href="00_picture/054.png"><strong>fmt</strong></a>.Println(value)    // Yoogesh i.e. the copy of variable <b>name</b> is passed-by-value here which will have nothing to do with the above variable <b>name</b> and ofcourse it passes <a href="00_picture/056.png">Race Condition</a> now
+                }<strong>(name)</strong>
+                name = "Sushila"
+
+
+                fmt.Println("Bye Bye!!")
+                time.Sleep(100 * time.Millisecond)
+             }
+    </i>
+
+ - If a child routine in above example doesn't execute within of 100 millisecond period, the main Routine will terminate and hence the child routine will never get a chance to execute. So that making <strong>Routine</strong>
+   a sleep for some period of time like above is not a good idea. Meahwhile, there are many ways to get rid of above <strong>time.Sleep()</strong> method with good approach of code and one of them is using <strong>WaitGroup</strong> which is
+   designed to synchronize multiple go-routines together. We here care about two go-routines to synchronize i.e default Main-Routine and our child routine that is created by using <strong>go</strong>:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             <strong>var wg = sync.WaitGroup{}</strong>                         // Creating a WaitGroup variable here that is used for the synchronization. Think of it as <strong>wait</strong> and <strong>notify</strong> in Java.
+                                                               // there is no problem having it as an Object level since it is ThreadSafe by design
+
+             func main(){
+
+                fmt.Println("Good Morning")
+                var name string = "Yoogesh"
+
+                <strong>wg.Add(1)</strong>                                      // Synchronize the child routine with Main
+                go func(value string){
+                  <a href="00_picture/057.png"><strong>fmt</strong></a>.Println(value)
+                  <strong>wg.Done()</strong>                                    // Nofity
+                }(name)
+
+                name = "Sushila"
+                fmt.Println("Bye Bye!!")
+                <strong>wg.Wait()</strong>                                     // Wait i.e. Tell Main-Routine to wait until <strong>wg</strong> notifies you that there is no any routines are available!!
+             }
+    </i>
+
+ - Above example actually has only one Go-Routine besides the Main one so that only one Go-Routine needs to be synchronized. But what happen if you have multiple Go-Routines where the data needs to be
+   synchronized? Definately, if that is your requirement, then our code is not sufficient to bit the <a href="00_picture/059.png">race condition</a> since there is no synchronization between go routines:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             <strong>var wg = sync.WaitGroup{}</strong>
+             var counter = 0
+
+             func main(){
+
+                for i := 0; i < 10; i++ {
+                  <strong>wg.Add(2)</strong>
+                  go sayHello()
+                  go increment()
+                }
+                <strong>wg.Wait()</strong>
+             }
+
+             func sayHello(){
+              <a href="00_picture/058.png"><strong>fmt</strong></a>.Printf("Hello #%v \n", counter)
+               <strong>wg.Done()</strong>
+             }
+
+             func increment(){
+               counter++
+               <strong>wg.Done()</strong>
+             }
+    </i>
+
+ - In order to correct this race condition between multiple go-Routines, we need to find a way that synchronizes these routines together. We may probably find a way by using these WaitGroups more precisely
+   but that will be cumbursome and may need many if and else condition. So as an option, we can use the concept of <strong>Mutex</strong> which a kind of lock that the application is goint to honor. Think of it an <strong>intrinsic
+   lock</strong> in Java. In Go we don't say intrinsic lock and instead we say <strong>Mutex</strong>. There are two kind of Mutex i.e. Read, Write and ReadWrite Mutex
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "runtime"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+             var counter = 0
+             <strong>var m sync.<a href="00_picture/060.png">RWMutex</a></strong>
+
+             func main(){
+
+                <strong>runtime.<a href="00_picture/062.png">GOMAXPROCS(100)</a></strong>
+                
+                for i := 0; i < 10; i++ {
+                  wg.Add(2)
+                  <strong>m.RLock()</strong>
+                  go sayHello()
+                  <strong>m.Lock()</strong>
+                  go increment()
+                }
+                wg.Wait()
+             }
+
+             func sayHello(){
+               <a href="00_picture/061.png"><strong>fmt</strong></a>.Printf("Hello #%v \n", counter)
+               <strong>m.RUnlock()</strong>
+               wg.Done()
+             }
+
+             func increment(){
+               counter++
+               <strong>m.Unlock()</strong>
+               wg.Done()
+             }
+    </i>
+
+ - The problem with above code is we are locking the Mutex in a single context which means the Main Routine is actually executing the locks and then asynchronously i will unlock them once i am done with the
+   asynchronous operation. The problem with this is i basially have completely destroyed concurrency and parallelism because all of these mutexes are forcing the data to be synchronized and run in a single
+   threaded way. So, any potential benefits i would get from the go routines are actually gone. As a matter of fact this application probably performs worse than that of without Go-Routines because i am
+   mocking around with the mutex and i'm constantly locking it and unlocking it. So this is an example where if this is all that this application needed to do, we would actually be much better served by
+   removing the go routines and just running this with a single execution path and removing any concurrency at all. However, there are often situations where you can get a significant advantage by running
+   things on parallel and so you can use wait groups or mutexes in order to synchronize things together and make sure that your data is protected and everything is playing well together now.
+
+ - Following are some best practices while working on Go-Routines:
+
+       - Don't create Go-Routines in libraries. Let consumer control concurrency but not the library itself (until and unless you use <strong>channel</strong> with Go-Routines)
+       - When creating Go-Routine, you must know how it will ends to avoid subtle memory leaks
+       - Check for race conditions at compile time using <strong>go run -race main.go</strong>
+    </pre>
+ </div> 
+
+  <div><strong>16) What is Channels in Go and how do you configure it?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Most programming languages that are out there were originally designed with a single processing core in mind. So when concurrency and parallelism came into play, they were really kind of bolted onto the
+   side. As a reason, a alot of times you are actually going to be working with third party libraries and packages in order to help with data-synchronization and things like that. Well! Go was born in a
+   multiprocessor world so every computer that was out there when go was invented had more than one processing core. So, it made sense as the language was being designed to consider concurrency and
+   parallelism from the begining.
+
+ - We already talked about Go-Routines and how Go abstracts the concept of a thread into this higher concept called Go-Routine to allow hundreds or thousands or even tens of thousands of things to be going
+   on in your application at the same time. Here, we are now going to talk about <strong>channels</strong> and how it can be used to pass data between different Go-Routines in a way that is safe and prevents issues such as
+   race conditions and memory sharing problems that can cause issues in your applications that are very difficult to debug. When we are working with channels in the go language, we're almost going to be
+   working with them in the context of Go-Routine. The reason is because chennels are really designed to synchronize data transmission between multiple Go-Routines:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                <strong>ch := make(chan int)</strong>                              // This is the only way to create channel. because of this line, go adds some functionality into it that addes channel feature.
+                                                                  // this channel can accept or provide only int and no other type. You can put string, *pointer etc based upon your needs buy only one type
+
+                wg.Add(2)                                         // Adding two items into my WaitGroup since we will be creating two Go-Routines
+                
+                go func() {                                         
+                  <strong>i := &lt;- ch</strong>
+                  <a href="00_picture/063.png"><strong>fmt</strong></a>.Println(i)                                  // 42
+                  wg.Done()
+                }()
+
+                go func() {
+                  <strong>ch &lt;- 42</strong>
+                  wg.Done()
+                }()
+
+                wg.Wait()
+             }
+    </i>
+
+ - The nice thing above is since we are sending the copy of the data (pass-by-value) to the channel, we could manipulate the variable assigned:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int)
+
+                wg.Add(2)
+                
+                go func() {                                         
+                  i := &lt;- ch
+                  fmt.Println(i)                                  // 42
+                  wg.Done()
+                }()
+
+                go func() {
+                  <strong>i := 42</strong>
+                  <strong>ch &lt;- i</strong>
+                  <strong>i = 100</strong>
+                  wg.Done()
+                }()
+
+                wg.Wait()
+             }
+    </i>
+
+ - The common usecase of Go-Routine is if you have data that's asynchronously processed. There may be different reasons behind Processing data asynchronously i.e. may be it generates data very very quickly 
+   but it takes time to process it or may be it takes a long time to generate that data and hence so you've got multiple generators so that can be processed very quickly. In this scenario, you might want to
+   have different number of Go-Routines that are sending data into a channel and you are receiving it:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int)
+
+                <strong>for j :=0; j &lt; 5; j++ {</strong>                           // There will be 10 Go-Routines spin up because of this loop
+
+                    wg.Add(2)
+
+                    go func() {                                         
+                      i := &lt;- ch
+                      <a href="00_picture/064.png"><strong>fmt</strong></a>.Println(i) 
+                      wg.Done()
+                    }()
+    
+                    go func() {
+                      ch &lt;- 42
+                      wg.Done()
+                    }()
+                <strong>}</strong>
+
+                wg.Wait()
+             }
+    </i>
+
+ - In a raw channel (where there is no specific rule about accept and send), it is perfectly valid to send and receive messages to and from a channel:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int)
+
+                wg.Add(2)
+                
+                go func() {                                         
+                  <strong>i := &lt;- ch</strong>                         // Get the message from a channel. If the message is not there yet, just wait(sleep) so that other Routines can process
+                  <a href="00_picture/065.png"><strong>fmt</strong></a>.Println(i)                     // prints the message i.e. 42
+                  <strong>ch &lt;- 27</strong>                           // push the message 27 to the channel so that other Go-Routine can consume it
+                  wg.Done()
+                }()
+
+                go func() {
+                  <strong>ch &lt;- 42</strong>                          // push the message 42 to the channel so that other Go-Routine can consume it
+                  <strong>fmt.Println(&lt;-ch)</strong>                 // Prints if the message (other than 42) is present in a channel, otherwise just wait until the message is available i.e. 27
+                  wg.Done()
+                }()
+
+                wg.Wait()
+             }
+    </i>
+
+ - In above example, both the Routines are acting as a reader and writer. well! that may be the situation you want, but very often you actually want to dedicate a Go-Routine to either reading from a channel
+   or writer to a channel. So, in order to do that we are actually going to pass in the channel with a bias on the direction that it's going to be able to wokwith. Doing this way make much more clear of what
+   the data flow is in the Go-Routine:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int)
+
+                wg.Add(2)
+                
+                go func(<strong>ch &lt;- chan int</strong>) {                                // We want this to be a receive only channel and hence the arrow here is going out from the channel                           
+                  i := &lt;- ch
+                  <a href="00_picture/066.png"><strong>fmt</strong></a>.Println(i)
+                  wg.Done()
+                }(<strong>ch</strong>)                                                    // We have to <a href="00_picture/067.png"><strong>pass</strong></a> the channel reference to the Go-Routines
+
+                go func(<strong>ch chan &lt;- int</strong>) {                                // We want this to be a send only channel and hence the arrow here is towards the channel
+                  ch &lt;- 42
+                  wg.Done()
+                }(<strong>ch</strong>)
+
+                wg.Wait()
+             }
+    </i>
+
+ - Let's now talk about how to deal with the deadlock? We already saw that if a sender and receiver Go-Routines don't send and receive messages equally, the <a href="00_picture/068.png"><strong>deadlock</strong></a> is occured. This can be replicated in a
+   below simplified snippet:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int)
+
+                wg.Add(2)
+
+                    go func(ch &lt;- chan int) {                                         
+                      <strong>i := &lt;- ch</strong>                                                // Receiving only one message
+                      <a href="00_picture/069.png"><strong>fmt</strong></a>.Println(i) 
+                      wg.Done()
+                    }(ch)
+
+                    go func(ch chan &lt;- int) {
+                      <strong>ch &lt;- 42</strong>                                                  // Sending Four messages
+                      <strong>ch &lt;- 27</strong>
+                      <strong>ch &lt;- 54</strong>
+                      <strong>ch &lt;- 88</strong>
+                      wg.Done()
+                    }(ch)
+
+                wg.Wait()
+             }
+    </i>
+
+ - The easiest way to get rid of this deadlock is using a bufferZone while creating a channel that's got an internal data store that can store in <a href="00_picture/070.png">this</a> case 50 integers. It will actually allow our application
+   to complete by eliminating the panic, but at the same time it creates a new problem by losing the rest of the messages. Actually this isn't the problem that buffered channels are really intended to solve,
+   but i do want to show you that it does create that internal store and it is done by this little <a href="00_picture/071.png">change</a> and that does work. By the way, buffered channel is really designed to use in a scenario where the
+   sender or the receiver operate at a different frequency than the other side. You can imagine if we had a data acquisition system and may be we retrieve data from our sensors in a burst transmission. May be
+   we are acquiring data from seismometers and we're monitoring earthquakes and may be those seismometers in order to conserve power don't send their data continuously and instead they send the burst
+   transmission may be once in an hour. So, every hour we are going to get a burst transmission that may be lasted for five or six seconds which contains the entire hour worth of data. So in that case, our
+   sender is going to be inundated (overwhelmed) with data when that burst happens and hence there must be a way to deal with it. well ! the receivers might take a little while to process that data and so
+   in that case what we might want to do is create buffer here of these signals that are comming in from our seismometer that's going to be able to accept that one hour worth of data and then our receivers
+   can pull that data off as they are able to process it and keep things working smoothly and the channel which is receiving the data from our sensors doesn't get locked up just because it doesn't have a place
+   to put the next message. So, thats really what buffered Go-Routines are designed to work with i.e. when your sender or receiver needs a little bit more time to process and so you don't want to block the
+   other side just because you have a little bit of a dalay there. But <a href="00_picture/071.png">this</a> way is not a right way to handle the situation we have <a href="00_picture/070.png">above</a>. The best way to handle this situation is using the <strong>for..range</strong> loop:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int, <strong>50</strong>)
+
+                wg.Add(2)
+
+                    go func(ch &lt;- chan int) {                                         
+                      <strong>for v := range ch {</strong>
+                         <a href="00_picture/072.png"><strong>fmt</strong></a>.Println(v)
+                      <strong>}</strong>
+                      wg.Done()
+                    }(ch)
+
+                    go func(ch chan &lt;- int) {
+                      ch &lt;- 42
+                      ch &lt;- 27
+                      ch &lt;- 54
+                      ch &lt;- 88
+                      <a href="00_picture/075.png"><strong>close(ch)</strong></a>
+                      wg.Done()
+                    }(ch)
+
+                wg.Wait()
+             }
+    </i>
+
+ - By the way you might ask a question of how does the <strong>for..range</strong> loop knows the channel is closed. It has to have some way of detecting it. it turns out that there are more than one parameter that you can
+   pull back from the channel. So just like when we're querying maps and we're trying to get a value out of a map and we can use that <a href="00_picture/073.png"><strong>ok</strong></a> syntax. But for this we need to use
+   infinite for loop instead of <strong>for..range</strong> loop:
+    <i>
+             package main
+         
+             import (
+              "fmt"
+              "sync"
+             )
+
+             var wg = sync.WaitGroup{}
+
+             func main(){
+
+                ch := make(chan int, 50)
+
+                wg.Add(2)
+
+                    go func(ch &lt;- chan int) {                                         
+                      <strong>for {</strong>                                    // Meanwhile, whether you want to choose this infinite loop or you want the above for..range loop, that's your <a href="00_picture/076.png"><strong>choice</strong></a> !!
+                        <strong>v, ok := <-ch</strong>
+                        <strong>if ok {</strong>
+                          <a href="00_picture/074.png"><strong>fmt</strong></a>.Println(v)
+                        <strong>} else { </strong> 
+                          break
+                        }
+                      <strong>}</strong>
+                      wg.Done()
+                    }(ch)
+
+                    go func(ch chan &lt;- int) {
+                      ch &lt;- 42
+                      ch &lt;- 27
+                      ch &lt;- 54
+                      ch &lt;- 88
+                      close(ch)
+                      wg.Done()
+                    }(ch)
+
+                wg.Wait()
+             }
+    </i>
+
+ - Sometimes there may be situations where you create Go-Routines that don't have an obvious way to close. This can be illustrated by below logger implementation:
+     <i>
+             package main
+         
+             import (
+              "fmt"
+              "time"
+             )
+
+             const (
+                logInfo = "INFO"
+                logWarning = "WARNING"
+                logError = "ERROR"
+             )
+
+             type logEntry struct {
+                time     time.Time
+                severity string
+                message  string
+             }
+
+             <strong>var logCh = make(chan logEntry, 50)</strong>
+
+             func main(){
+
+               /* This will be processed by child go routine */
+                <strong>go logger()</strong>
+
+                /* These three lines will be processed by Main go routine where the last line will sleep for 100 millisecond so that the child go routine can process.
+                   This is because we are not using WaitGroup here for simplicity.
+                */
+                <strong>logCh &lt;- logEntry{time.Now(), logInfo, "App is starting"}
+                logCh &lt;- logEntry{time.Now(), logInfo, "App is shutting down"}
+                time.Sleep(100 * time.Millisecond)</strong>
+             }
+
+             func logger() {
+              for entry := range logCh {
+                <a href="00_picture/077.png"><strong>fmt</strong></a>.Printf("%v - [%v] %v \n", entry.time.Format("2006-01-02T15:04:05"), entry.severity, entry.message)
+              }
+             }
+    </i>
+
+ - In above example, the <strong>looger()</strong> GO-Routing is monitoring the log entries that are coming from throughout the application. Anything that could do logging in my application just needs to know about this <strong>logCh</strong>
+   channel where all of my logging logic can be hidden within the processing of those log channel messages. The problem i want you to consider here is when does the <strong>logger()</strong> Go-Routine close down? Obviously,
+   the logger go routing has to terminate sometime when the program finishes the execution and we get the results back. Remember, an application is shut-down as soon as the last statement of the main function
+   finishes the execution. This means after the main go routine executes <strong>time.Sleep(100 * time.Millisecond)</strong> in above example, the application terminates, everything is torn down and all resources are
+   reclaimed as the go runtime returns all of the resources that it was using back to the operating system. So, what that means is that our logger go routine is being torn down forcibly. There is no graceful
+   shutdown for this go routine. it just being ripped-out because the main function is done. In some situations like this one, that may be acceptable. However there are many situations where you want to have
+   much more control over a go routine because <strong>you should always have a strategy for how your go routine is going to shut down when you create your go routine</strong>. Otherwise, it can be a subtle resource leak and
+   eventually it could leak enough resources that could bring your application down. There is a couple of options we can do here to gracefully shut down the channel one of which is using the <strong>defer</strong> function:
+     <i>
+             package main
+         
+             import (
+              "fmt"
+              "time"
+             )
+
+             const (
+                logInfo = "INFO"
+                logWarning = "WARNING"
+                logError = "ERROR"
+             )
+
+             type logEntry struct {
+                time     time.Time
+                severity string
+                message  string
+             }
+
+             var logCh = make(chan logEntry, 50)
+
+             func main(){
+
+                go logger()
+
+                <strong>defer func(){
+                  close(logCh)
+                }()</strong>
+
+                logCh &lt;- logEntry{time.Now(), logInfo, "App is starting"}
+                logCh &lt;- logEntry{time.Now(), logInfo, "App is shutting down"}
+                time.Sleep(100 * time.Millisecond)
+             }
+
+             func logger() {
+              for entry := range logCh {
+                <a href="00_picture/078.png"><strong>fmt</strong></a>.Printf("%v - [%v] %v \n", entry.time.Format("2006-01-02T15:04:05"), entry.severity, entry.message)
+              }
+             }
+    </i>
+
+ - However, the very common way that is used in this kind of situation is what's called a <strong>select statement</strong>.
+     <i>
+             package main
+         
+             import (
+              "fmt"
+              "time"
+             )
+
+             const (
+                logInfo = "INFO"
+                logWarning = "WARNING"
+                logError = "ERROR"
+             )
+
+             type logEntry struct {
+                time     time.Time
+                severity string
+                message  string
+             }
+
+             var logCh = make(chan logEntry, 50)
+             <strong>var donCh = make(chan <a href="00_picture/079.png">struct</a>{})</strong>
+
+             func main(){
+
+                go logger()
+                logCh &lt;- logEntry{time.Now(), logInfo, "App is starting"}
+                logCh &lt;- logEntry{time.Now(), logInfo, "App is shutting down"}
+                time.Sleep(100 * time.Millisecond)                                            // If you want the Main function wait without this line too, then see these: <a href="00_picture/083.png"><strong>1</strong></a> <a href="01_Note/01_channel/main.go"><strong>2</strong></a>
+                
+                <strong>donCh &lt;- struct{}{}</strong>                                                           // Notice this is little bit <a href="00_picture/082.png">confusing</a> 
+             }
+
+             func <a href="00_picture/080.png"><strong>logger</strong></a>() {
+              <strong>for {</strong>
+                <strong>select {</strong>
+                  <strong>case entry := &lt;-logCh:</strong>
+                       <a href="00_picture/081.png"><strong>fmt</strong></a>.Printf("%v - [%v] %v \n", entry.time.Format("2006-01-02T15:04:05"), entry.severity, entry.message)
+                  <strong>case &lt;-donCh:</strong>
+                       <strong>break
+                }
+             }</strong>
+            }
+    </i>
+    </pre>
+ </div>   
+
+  <div><strong>17) How do you do the testing in Golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   Testing with GO is not like using <strong>RSpec</strong>, <strong>Mocha</strong>, <strong>Jasmine</strong>, <strong>selenium</strong> or any other testing framework for other languages you might be used to. With Go, we get a very small interface or very small set of
+   function to help us actually test our code. In practice, writing tests with go usually ends up being us writing very normal go code to actually test and make sure that our code is working correctly.
+   basically, you need to know two things while testing in golang:
+
+     - First of all decide which function from which file you want to write a Junit <a href="00_picture/085.png">For</a>
+     - Create a new file ending in <strong>_test.go</strong> and <a href="00_picture/086.png"><strong>implement</strong></a> your logic for the test and run it by using command <strong>go test</strong>. By the way you can run this comamand without having any test too which bacically tells
+       there is <a href="00_picture/084.png">no tests</a> to run
+     - The Junit that tests reading and writing of data into a file and also the testing of random decks can be found in <a href="01_Note/02_cards"><strong>here</strong></a>
+    </pre>
+ </div>   
+
+  <div><strong>18) How do you install new package in golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   New package in go can be installed by using following:
+
+      <a href="00_picture/090.png">(base)/Users/ysharma/go:~</a> <strong>go get github.com/gorilla/mux</strong>                                                 // To install a new package
+      <a href="00_picture/091.png">(base)/Users/ysharma/go:~</a> <strong>go get -u github.com/gorilla/mux</strong>                                              // If you want to update the already existing package
+
+ - Let's now see how we create a <a href="https://devandchill.com/posts/2019/03/go-modules-working-outside-gopath/" target="_blank"><b>new project</b></a> with dependencies on it:
+   
+      <a href="00_picture/092.png">ysharma/Documents/Git/Go-Based_Projects:~</a> <strong>mkdir my-demo</strong>                                                 // Create a project folder, or clone a github repository
+      ysharma/Documents/Git/Go-Based_Projects:~ <strong>cd my-demo</strong>
+      <a href="00_picture/093.png">ysharma/Documents/Git/Go-Based_Projects/my-demo:~</a> <strong>touch main.go</strong>                                         // Create a file if we are starting the project
+      <a href="00_picture/094.png">ysharma/Documents/Git/Go-Based_Projects/my-demo:~</a> <strong>go mod init my-demo</strong>                                   // This will initiate the module with creating new file <strong>go.mod</strong>
+      <a href="00_picture/095.png">ysharma/Documents/Git/Go-Based_Projects/my-demo:~</a> <strong>go get -u github.com/gorilla/mux</strong>                      // we can now proceed installing dependencies by doing <b>go get -u &lt;path&gt;</b>
+      <a href="00_picture/096.png">ysharma/Documents/Git/Go-Based_Projects/my-demo:~</a> <strong>go get -u ./...</strong>                                       // This will <a href="01_Note/How_To_Upgrade_Go-Dependencies.pdf" target="_blank"><b>update</b></a> the project with creating new file <strong>go.sum</strong>
+      <a href="00_picture/097.png">ysharma/Documents/Git/Go-Based_Projects/my-demo:~</a> <strong>go mod vendor</strong>                                         // This will create a new folder <b>vendor</b> with all the jars on it
+    </pre>
+ </div>   
+
+ <div><strong>19) How can you run a simple application using webserver in go?</strong></br>
+    &nbsp;&nbsp = >&nbsp;
+    <pre style="margin-top:-15px; margin-left:20px;">
+   <a href="00_picture/031.png">Running</a> a live webserver in go is very simple using the out-of-the-box http library. Just Like we make one servelt for one URL path in java servlet, we make one <strong>handler</strong> for one URL path in go-language.
+   Similarly, just like the java servlet (Generic servlet) has a method <a href="00_picture/106.png"><strong>service</strong></a> which must be overridden from our servlet, Go has also provided a method <a href="00_picture/107.png">ServeHTTP</a> which must be overridden from our handler.
+   Finally, just like the servlet service metod contains <i>servletRequest</i> and <i>servletResponse</i> parameter, we have <strong>ResponseWriter</strong> and <strong>Request</strong> in golang <a href="00_picture/107.png">ServeHTTP</a>. Keep in mind that these Request and
+   ResponseWriter are interfaces which means we can later create our own responseWriter and pass that writer as a response when serving a response. Now you just need to do is write your own handler and start
+   a server using <strong>ListenAndServe()</strong>and done: 
+        <i>
+             package main
+         
+             import (
+              "fmt"
+              "io/ioutil"
+              "log"
+              "net/http"
+             )
+
+             func main(){
+
+                <strong>http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {</strong>           // internally this HandleFunc calls the ServeHTTP method and registers to DefaultServeMux
+                  d, err := ioutil.ReadAll(r.Body)
+
+                  if err != nil {
+                    /* 
+                       rw.WriteHeader(http.StatusBadRequest)
+                       rw.Write([]byte("Oops some error occured!!"))
+                    */
+                    http.Error(rw, "Oops some error occured!!", http.StatusBadRequest)
+                    return
+                  }
+
+                  log.Printf("Data: %s \n", d)
+
+                  /*
+                     rw.WriteHeader(http.StatusOK)
+                     rw.Write([]byte("Data: " + string(d)))
+                  */
+                  <a href="00_picture/088.png"><strong>fmt</strong></a>.Fprintf(rw, "Data: %s", d)
+                <strong>})</strong>
+
+
+                <strong>http.HandleFunc("/goodbye", func(http.ResponseWriter, *http.Request) {</strong>
+                  <a href="00_picture/089.png"><strong>log</strong></a>.Println("Goodbye world")
+                <strong>})</strong>
+
+
+                <strong>http.ListenAndServe(":8080", nil)</strong>           // Since we are not passing a Main handler as nil, a <strong>DefaultServeMux</strong> will be used
+            }
+    </i>
+
+ - So the main basic thing we need to run the go application is you have to have your own handler right? But Make sure there needs to be one Main handler where your custom handlers are bundled up to. Yes,
+   if you don't provide  the Main handler, Go will give you a default handler which is called <a href="00_picture/108.png">DefaultServeMux</a> which means in above case, the DefaultServeMux is being used. So it is encouraged to have your
+   own Main handler and pass it via <i>ListenAndServe()</i> method like shown <a href="00_picture/109.png">here</a>. A full project for this example can be found in a link <a href="https://github.com/yoogesh1983/Go_Lang_Based_Projects/tree/01-Running-web-application-without-third-party-library/Products" target="_blank"><strong>here</strong></a>.
+
+ - Although you can run a full blown web go application just using only go library without using any third party library, it may not that helpful when using in a production environment because the most known
+   cons of using this approach is the more and more use of boiler plate code. For example, there is no seperate method for GET/POST in a handler which means you need to apply your <a href="00_picture/110.png">own logic</a> in a overridden
+   ServeHTTP() method to findout whether the request is for GET or POST or others which means if you have 1000 handlers, the same logic is repeated in 1000 places. On the other hand, its really <a href="00_picture/111.png">cumbursome</a> to
+   get a request param or path param if you are using only go library.This is the reason, most of the time we use third party library that makes our life very easier. Out of many third party librariss, a
+   <a href="https://www.gorillatoolkit.org/">gorilla</a> framework is one of the most popular one in the market. Gorilla has a handler called <a href="00_picture/112.png">Mux Router</a> which gives us very easy way to handle these requests and responses. Link for this applicatin can be
+   found <a href="https://github.com/yoogesh1983/Go_Lang_Based_Projects/tree/02-web-application-with-gorilla-mux/Products"><strong>here</strong></a>. Make sure using this, you no longer need to override the ServeHTTP() method since gorilla <a href="00_picture/113.png">internally</a> does that for us.
+
+ - If you want to do a validation in golang, then you better use <a herf="https://github.com/go-playground/validator">go-validator</a> which let's you put the annotation on a struct level and do the <a href="00_picture/114.png">validation</a> . Click <a href="https://github.com/yoogesh1983/Go_Lang_Based_Projects/tree/03-validation-using-go-validator/Products">here</a> for full application about the validation.
+
+ - Meanwhile, if you want to upload and download images (or files), then see <a href="https://github.com/yoogesh1983/Go_Lang_Based_Projects/tree/04-upload_and_download_file/Products"><strong>here</strong></a>. By the way, for Multipart submission of form see these resources: <a href="https://www.youtube.com/watch?v=_7-IhHMptNo"><strong>1</strong></a>  <a href="https://www.youtube.com/watch?v=GtSg1H7SU5Y&t=1043s"><strong>2</strong></a>
+    </pre>
+ </div>
+
+  <div><strong>20) How do you generate a swagger in golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp; </div>
+    <pre style="margin-top:-15px; margin-left:20px;">
+   To use swagger in golang, you first need to install swagger in your mac like below: 
+     <i>
+       ysharma/Documents/my-demo:~ <b>brew tap go-swagger/go-swagger</b>
+       ysharma/Documents/my-demo:~ <b>brew install go-swagger</b>
+    </i>
+ - The above step is actally not a mandatory step but will make working with swagger much easier. Installing it lets you test your annotations locally, but if you want you can install it in
+   a particular go application directly:
+    <i>
+       ysharma/Documents/my-demo:~ <b>go get -u github.com/go-swagger/go-swagger/cmd/swagger</b>
+    </i>	   
+ - After the swagger command line is installed, you can <a href="https://www.ribice.ba/swagger-golang/" target="_blank">generate</a> a swagger.json file and use that file to showup in a ui:
+    <i>
+       ysharma/Documents/my-demo:~ <b>swagger generate spec -o ./assets/swagger.json --scan-models</b>                     -- Generate swagger.json inside <strong>assets</strong> folder
+       ysharma/Documents/my-demo:~ <b>swagger serve -F=swagger ./assets/swagger.json</b>                                   -- Directly Opens an <a href="00_picture/099.png">Ui</a> for swagger
+    </i>	   
+ - By the way, to show swagger in a specific url, you need to do a little bit more work as described <a href="https://www.ribice.ba/serving-swaggerui-golang/" target="_blank">here</a>:
+ 
+    - go <a href="https://github.com/swagger-api/swagger-ui/tree/master/dist" target="_blank">here</a>, copy all the files and put those all inside the <strong>assets</strong> folder where the generated <strong>swagger.json</strong> file presents currently
+    - now, <a href="00_picture/098.png">bootstrap</a> the swagger in a handler while starting up Go application and that is <a href="00_picture/100.png">done</a>
+   
+    </pre>
+ </div> 
+
+  <div><strong>21) How do you configure the CORS in golang?</strong></br>
+    &nbsp;&nbsp = >&nbsp;
+    <pre style="margin-top:-15px; margin-left:20px;">
+   If you make a go service call from react application without using a <a href="00_picture/103.png">proxy</a>, you will get <a href="00_picture/102.png">CORS error</a> which basically saying the golang server response header <a href="00_picture/104.png">doesn't</a> contain <strong>Access-Control-Allow-Origin</strong>.
+   This is happening because the go-server thinks a request is comming from a different IP that its own sever ip and assuming the request is initiated by a hacker. So that the server is not including
+   <strong>Access-Control-Allow-Origin</strong> in its response header.That's why we now need to give some list of urls to the go server for whiteListing those and ask to send <strong>Access-Control-Allow-Origin</strong> in a response
+   header if request comes from those urls. In golang, it is done in a <a href="00_picture/101.png">main.go</a> by creating a handler cor Cors. Once this is done, it will no longer see the cors issue and since it includes those values in
+   a <a href="00_picture/105.png">response header</a>.
+    </pre>
+ </div> 
+
+  <div><strong>22) How can you use go-kit cli to create go-kit related code?</strong></br>
+    &nbsp;&nbsp = >&nbsp;
+    <pre style="margin-top:-15px; margin-left:20px;">
+   go-kit-cli is a program that is created to accelare your go-kit code. it is an <a href="https://github.com/kujtimiihoxha/kit">open Source</a> project and hence you can use freely. However you need to follow below steps to use it in your environment:
+
+ - You must need to create a project inside the <a href="00_picture/115.png">src</a> package inside the <a href="00_picture/116.png">go</a> folder, otherwise it will not work. here, i have created a folder <strong>GRPC_YMS</strong> at <strong>/go/src/github.com/totalwinelabs/</strong> and <a href="00_picture/117.png">initialized</a>
+   the project.
+
+ - After the project is initialized, run below command to install go-kit-cli:
+    <i>
+      ysharma/Documents/GRPC_YMS:~ <b>go get github.com/kujtimiihoxha/kit</b>           -- This will <a href="00_picture/119.png">install</a> the go-kit-cli and hence the <strong>kit</strong> project will be availbe inside <a href="00_picture/118.png">bin</a> folder
+    </i> 
+- The above <strong>kit</strong> inside the <strong>bin</strong> folder is the executable one and you can execute it from anywhere. So for us, for the easyness purpose, copy this <strong>kit</strong> and put <a href="00_picture/120.png">inside</a> our project. You can not run a <string>kit</string> command
+  in your console like below:
+    <i>
+      ysharma/Documents/GRPC_YMS:~ <b>./kit new service users</b>           -- This will create a <a href="00_picture/121.png">users</a> service in your project
+    </i> 
+- Now to know about how do you create a project and what steps you will follow after that, please follow these links: <a href="https://github.com/kujtimiihoxha/kit"><strong>1</strong></a>  <a href="https://www.youtube.com/watch?v=1ScP5DyS1_g"><strong>2</strong></a>
+    </pre>
+ </div> 
+
+</body>
+</html>
