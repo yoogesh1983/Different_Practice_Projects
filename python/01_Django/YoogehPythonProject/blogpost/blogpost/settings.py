@@ -164,4 +164,5 @@ EMAIL_USE_TLS = True
 # This will allow jwt refresh token call. By default it is false
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer'
 }
