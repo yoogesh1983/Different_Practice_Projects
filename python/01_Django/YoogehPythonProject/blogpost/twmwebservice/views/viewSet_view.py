@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from twmblog.models import Post
 from twmwebservice.serializer import PostSerializer
+from twmwebservice.authentications import CustomAuthentication
 
 
 class PostCrudViewUsingViewSet(ModelViewSet):
@@ -10,5 +11,5 @@ class PostCrudViewUsingViewSet(ModelViewSet):
     serializer_class = PostSerializer
 
     # Enable DRF authentication and authorization locally
-    authentication_classes = [JSONWebTokenAuthentication, ]
+    authentication_classes = [CustomAuthentication, ]
     permission_classes = [IsAuthenticated, ]
