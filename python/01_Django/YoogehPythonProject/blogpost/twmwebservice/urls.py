@@ -36,6 +36,7 @@ urlpatterns = [
 
         #Api view (out of the box) Single
         re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostRetrieveAPIView_ShortCutWay.as_view()),
+        re_path('drf/apiviews/ootb/single/ootb/', apiootb.PostListAPIView_ShortCutWay.as_view()),
         path('drf/apiviews/ootb/single/', apiootb.PostCreateAPIView_ShortCutWay.as_view()),
         re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostUpdateAPIView_ShortCutWay.as_view()),
         re_path('drf/apiviews/ootb/single/(?P<id>\d+)/$', apiootb.PostDestroyAPIView_ShortCutWay.as_view()),

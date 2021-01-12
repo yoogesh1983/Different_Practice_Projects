@@ -156,10 +156,14 @@ EMAIL_HOST_PASSWORD = 'Your smtp password goes here'
 EMAIL_USE_TLS = True
 
 # Enable DRF authentication and authorization globally for twmwebservice Application
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
-#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
-# }
+REST_FRAMEWORK = {
+    #'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
+    #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+
+     #for pagination purpose
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 # This will allow jwt refresh token call. By default it is false
 JWT_AUTH = {
