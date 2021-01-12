@@ -1,4 +1,4 @@
-from twmblog.models import Post
+from twmblog.models import Post, StaticPath
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -9,6 +9,7 @@ from django.views.generic import ListView
 from taggit.models import Tag
 
 from .forms import EmailSendRequest, CommentRequest, AddUserRequest, AddPostRequest
+
 
 def getAllPost(request, tag_slug=None):
     user = request.user
@@ -127,10 +128,10 @@ def get_my_website(request):
 
 @login_required
 def get_go_lang_website(request):
-    ctx = populate_context('Go Language')
+    ctx = populate_context('go')
     return TemplateResponse(request, 'mywebsite/24_Go_Language/Go.html', ctx)
 
 
-def populate_context(title, *args, **kwargs):
+def populate_context(title):
     ctx = {'title': title}
     return ctx

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from twmblog.models import Post, Comment
+from twmblog.models import Post, Comment, StaticPath
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -28,6 +28,10 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('active', 'created', 'updated')
     search_fields = ('name', 'email', 'body')
 
+class StaticPathAdmin(admin.ModelAdmin):
+    list_display = ['name', 'url']
+
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(StaticPath, StaticPathAdmin)

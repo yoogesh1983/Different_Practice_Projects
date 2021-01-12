@@ -22,7 +22,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)  # when save method is called that time is taken
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     objects = CustomManager()
-    tags = TaggableManager() # Third party application 'tagging' which is used for tagging purpose i.e we should use Post.tags.all() for this
+    tags = TaggableManager()  # Third party application 'tagging' which is used for tagging purpose i.e we should use Post.tags.all() for this
 
     class Meta:
         # because of this, we no need to call orderby when publish.. it will be bydefault accending..so we do reverse of it here
@@ -61,3 +61,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Commented By {} on {}'.format(self.name, self.post)
+
+
+class StaticPath(models.Model):
+    name = models.CharField(max_length=50)
+    url = models.CharField(max_length=100)

@@ -1,4 +1,8 @@
 from django.http import HttpResponse
+from twmblog.models import StaticPath
+
+WEBSITE = '/website'
+API = '/api'
 
 class BlogpostMiddleware(object):
     def __init__(self, get_response):
@@ -13,6 +17,18 @@ class BlogpostMiddleware(object):
 
     def process_template_response(self, request, response):
         url = request.get_full_path()
-        if('/api' not in url):
-            response.context_data["userAuthenticated"]= request.user.is_authenticated
+        if API not in url:
+            response.context_data["userAuthenticated"] = request.user.is_authenticated
+        if WEBSITE in url:
+            path = url.rsplit('/', 1)[-1]
+            if len(path) > 0:
+                try:
+                    static_path = StaticPath.objects.get(name=path)
+                except StaticPath.DoesNotExist as msg:
+                    path = 'NotFound'
+                except Exception as msg:
+                    path = 'Exception'
+                else:
+                    path = static_path.url
+                response.context_data["staticBasePath"] = path
         return response
