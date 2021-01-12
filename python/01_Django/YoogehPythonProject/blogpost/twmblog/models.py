@@ -22,7 +22,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)  # when save method is called that time is taken
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     objects = CustomManager()
-    tags = TaggableManager() # Third party application 'tagging' which is used for tagging purpose i.e we should use Post.tags.all() for this
+    tags = TaggableManager(blank=True) # Third party application 'tagging' which is used for tagging purpose i.e we should use Post.tags.all() for this
 
     class Meta:
         # because of this, we no need to call orderby when publish.. it will be bydefault accending..so we do reverse of it here

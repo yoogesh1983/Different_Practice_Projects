@@ -10,6 +10,7 @@ from taggit.models import Tag
 
 from .forms import EmailSendRequest, CommentRequest, AddUserRequest, AddPostRequest
 
+
 def getAllPost(request, tag_slug=None):
     user = request.user
     blogs = Post.objects.all()
@@ -110,10 +111,11 @@ def addPost(request):
     if request.method == 'POST':
         form = AddPostRequest(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
+            post = super(AddPostRequest, form).save(commit=False)
             post.author = request.user
             post.slug = post.title.replace(" ", "").lower()
             post.save()
+            form.save_m2m()  # Save Many to Many (Without this line the tags won't be saved)
             return HttpResponseRedirect('/')
     ctx = {'form': form}
     return TemplateResponse(request, redirecturl, ctx)
