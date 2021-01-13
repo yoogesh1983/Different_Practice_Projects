@@ -19,7 +19,7 @@ class MyPagination(PageNumberPagination):
 class PostListAPIView_ShortCutWay(ListAPIView):
     # queryset = Post.objects.all()    # queryset is defined and cannot be other that it. require here if we don't override get_queryset() method
     serializer_class = PostSerializer  # serializer_class is defined and cannot be other
-    pagination_class = MyPagination
+    #pagination_class = MyPagination
 
     # If you want the customized list as a response then you need to override this.
     # It is used especially to implement search operation
@@ -84,3 +84,4 @@ class PostRetrieveUpdateAndDestroyAPIView_ShortCutWay(RetrieveUpdateDestroyAPIVi
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'id'  # default lookup field is 'pk'
+

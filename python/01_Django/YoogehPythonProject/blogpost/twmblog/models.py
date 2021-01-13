@@ -14,8 +14,9 @@ class Post(models.Model):
     STATUS_CHOICES = (('draft', 'Draft'), ('published', 'Published'))  # Tuple inside tuple
     title = models.CharField(max_length=256)
     slug = models.SlugField(max_length=264, unique_for_date='publish')  # It is used to build SEO friendly URL
-    author = models.ForeignKey(User, related_name='blog_posts',
-                               on_delete=models.CASCADE)  # related_name is useful when we require all Post related to the User
+    # related_name is useful when we require all Post related to the User. Just becasue of this, all the posts also comes whenever you search for user
+    # Similarly, on_delete=models.CASCADE says whenever the User is deleted, all the posts associated to that User should also be deleted
+    author = models.ForeignKey(User, related_name='blog_posts', on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)  # everytime the post object is updated that time is taken

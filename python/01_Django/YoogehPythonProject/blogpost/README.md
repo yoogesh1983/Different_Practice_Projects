@@ -6,7 +6,7 @@
 
 > pip install requests
 
-To install the Django Rest API, install following:
+To use the Django Rest API, install following:
 
 > pip install djangorestframework
 >
@@ -14,9 +14,13 @@ To install the Django Rest API, install following:
 > 
 > pip install django-filter
 
-To install JWT Token Feature, install following:
+To use the JWT Token Feature, install following:
 
 > pip install djangorestframework-jwt
+>
+To use the Swagger Feature, install following:
+
+> pip install -U drf-yasg
 
 The Application can now be browsed at http://127.0.0.1:8000
 

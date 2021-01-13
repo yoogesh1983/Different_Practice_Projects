@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit',  # This is used for Tagging
     'rest_framework',  # This is used for DRF
+    'drf_yasg', # For DRF Swagger
     'rest_framework.authtoken',  # This is for tokenization for DRF
     'twmblog',
     'twmwebservice',
@@ -161,8 +162,13 @@ REST_FRAMEWORK = {
     #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
 
      #for pagination purpose
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #'PAGE_SIZE': 2
+
+    #For Filtering and Ordering
+    'DEFAULT_FILTER_BACKENDS':('rest_framework.filters.SearchFilter', 'rest_framework.filters.OrderingFilter',),
+    'SEARCH_PARAM': 'findby', # Default is search
+    'ORDERING_PARAM': 'orderby' # Default is ordering
 }
 
 # This will allow jwt refresh token call. By default it is false

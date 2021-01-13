@@ -1,14 +1,39 @@
 from django.urls import path, re_path, include
-from rest_framework import routers
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import routers, permissions
 from rest_framework.authtoken import views as token
 from rest_framework_jwt import views as jwt
 from twmwebservice.views import api_views_ootb as apiootb, fbv_views as fbv, cbv_views as cbv, mixin_views as mixin, viewSet_view as viewset, api_views_core as apicore
 
 router = routers.DefaultRouter()
 router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet) #Since PostCrudViewUsingViewSet extends ModelViewSet, the base_name is optional
+router.register('userViewSet', viewset.UserCrudViewUsingViewSet) #Since UserCrudViewUsingViewSet extends ModelViewSet, the base_name is optional
 #router.register('ymsViewSet', viewset.PostCrudViewUsingViewSet, base_name='ymsViewSet')
 
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Blog post Application",
+      default_version='v1',
+      description="This is the blogpost application",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
+
+    # Swagger URLs
+    ##############
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
+    # Api [ViewSet]
+    #########################
+    path('yms/', include(router.urls)),
+    path('user/', include(router.urls)),
 
    # For JWT token
     path('jwt-access-token/', jwt.obtain_jwt_token, name='get-access-token'),
@@ -51,9 +76,5 @@ urlpatterns = [
         path('drf/mixin/single/', mixin.PostListViewMixin.as_view()),
         path('drf/mixin/multiple/', mixin.PostListAndCreateViewMixin.as_view()),
         re_path('drf/mixin/multiple/(?P<pk>\d+)/$', mixin.PostRetrieveUpdateAndDestroyModelMixin.as_view()),
-
-    # Api [ViewSet]
-    #########################
-    path('yms/', include(router.urls)),
 
     ]
